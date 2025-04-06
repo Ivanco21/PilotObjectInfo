@@ -1,14 +1,9 @@
-﻿using Ascon.Pilot.SDK;
-using Homebrew.Mvvm.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Ascon.Pilot.SDK;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class StateInfoViewModel : ObservableObject
+    class StateInfoViewModel : Base.ViewModel
     {
         private IStateInfo _stateInfo;
 
@@ -24,7 +19,5 @@ namespace PilotObjectInfo.ViewModels
         public int? PersonId => _stateInfo?.PersonId;
 
         public int? PositionId => _stateInfo?.PositionId;
-
-
     }
 }

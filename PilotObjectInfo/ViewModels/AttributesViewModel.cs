@@ -1,14 +1,11 @@
-﻿using Homebrew.Mvvm.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ascon.Pilot.SDK;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class AttributesViewModel : ObservableObject
+    class AttributesViewModel : Base.ViewModel
     {
         private IDictionary<string, object> _attributes;
 
@@ -57,6 +54,5 @@ namespace PilotObjectInfo.ViewModels
         }
 
         public Dictionary<string, string> Attributes { get; }
-
     }
 }

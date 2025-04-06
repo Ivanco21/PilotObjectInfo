@@ -1,13 +1,9 @@
-﻿using Ascon.Pilot.SDK;
-using PilotHelper.Extentions;
+﻿using System;
+using System.Linq;
+using Ascon.Pilot.SDK;
+using PilotObjectInfo.Extensions;
 using PilotObjectInfo.ViewModels;
 using PilotObjectInfo.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PilotObjectInfo
 {

@@ -4,16 +4,14 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Ascon.Pilot.SDK;
-using Homebrew.Mvvm.Commands;
-using Homebrew.Mvvm.Models;
 using Microsoft.Win32;
+using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class FilesViewModel : ObservableObject
+    class FilesViewModel : Base.ViewModel
     {
         private Guid _objectId;
         private ReadOnlyCollection<IFile> _files;
@@ -36,10 +34,11 @@ namespace PilotObjectInfo.ViewModels
 
         public ObservableCollection<IFile> Files { get; set; }
 
+        private IFile _selectedFile;
         public IFile SelectedFile
         {
-            get => Get(() => SelectedFile);
-            set => Set(() => SelectedFile, value, () =>
+            get { return _selectedFile; }
+            set
             {
                 if (value != null)
                 {
@@ -48,8 +47,7 @@ namespace PilotObjectInfo.ViewModels
                 }
                 else SignnaturesInfo = null;
 
-            });
-
+            }
         }
 
         private string GetFileContent(IFile file)
@@ -64,18 +62,22 @@ namespace PilotObjectInfo.ViewModels
             }
         }
 
+        private string _fileContent;
+
         public string FileContent
         {
-            get => Get(() => FileContent);
-            set => Set(() => FileContent, value);
+            get {return _fileContent;}
+            set => Set(ref _fileContent, value);
         }
 
+        private SignnaturesInfoViewModel _signnaturesInfo;
         public SignnaturesInfoViewModel SignnaturesInfo
         {
-            get => Get(() => SignnaturesInfo);
-            set => Set(() => SignnaturesInfo, value);
+            get { return _signnaturesInfo; }
+            set => Set(ref _signnaturesInfo, value);
 
         }
+
         public RelayCommand DownloadCmd
         {
             get

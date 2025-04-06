@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ascon.Pilot.SDK;
-using Homebrew.Mvvm.Commands;
-using Homebrew.Mvvm.Models;
+using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
 {
-	class RelationsViewModel : ObservableObject
+    class RelationsViewModel : Base.ViewModel
     {
 		private ReadOnlyCollection<IRelation> _relations;
         private IObjectsRepository _objectsRepository;

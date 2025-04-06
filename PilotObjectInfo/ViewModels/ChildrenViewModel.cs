@@ -1,17 +1,11 @@
-﻿using Ascon.Pilot.SDK;
-using Homebrew.Mvvm.Commands;
-using Homebrew.Mvvm.Models;
-using PilotHelper;
-using PilotHelper.Extentions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Ascon.Pilot.SDK;
+using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class ChildrenViewModel : ObservableObject
+    class ChildrenViewModel :  Base.ViewModel
     {
         private IEnumerable<Guid> _children;
         private IObjectsRepository _objectsRepository;
