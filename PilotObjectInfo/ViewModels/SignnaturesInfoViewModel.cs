@@ -13,6 +13,7 @@ namespace PilotObjectInfo.ViewModels
         }
 
         public IFile File { get; set; }
+        [System.Obsolete]
         public ObservableCollection<ISignature> Signatures { get; set; }
     }
 }

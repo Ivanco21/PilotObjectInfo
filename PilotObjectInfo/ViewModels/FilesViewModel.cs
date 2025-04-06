@@ -35,6 +35,8 @@ namespace PilotObjectInfo.ViewModels
         public ObservableCollection<IFile> Files { get; set; }
 
         private IFile _selectedFile;
+
+        [Obsolete]
         public IFile SelectedFile
         {
             get { return _selectedFile; }
