@@ -10,9 +10,11 @@
         <DataGrid ItemsSource="{Binding Attributes}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  ClipboardCopyMode="IncludeHeader">
+                  ClipboardCopyMode="IncludeHeader"
+                  ColumnWidth="*">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" 
+                <DataGridTextColumn Header="Name"
+                                    Width="Auto"
                                     Binding="{Binding Key, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Value"
                                     Binding="{Binding Value, Mode=OneWay}"/>
