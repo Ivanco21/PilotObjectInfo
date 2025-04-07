@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PilotObjectInfo"
+             xmlns:local="clr-namespace:PilotObjectInfo" 
+             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:AttributesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -15,7 +17,10 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name"
                                     Width="Auto"
-                                    Binding="{Binding Key, Mode=OneWay}"/>
+                                    Binding="{Binding Name, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Title"
+                                    Width="Auto"
+                                    Binding="{Binding Title, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Value"
                                     Binding="{Binding Value, Mode=OneWay}"/>
             </DataGrid.Columns>

@@ -1,37 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Ascon.Pilot.SDK;
+using PilotObjectInfo.Models;
 
 namespace PilotObjectInfo.ViewModels
 {
     class AttributesViewModel : Base.ViewModel
     {
-        private IDictionary<string, object> _attributes;
-
-        public AttributesViewModel(IDictionary<string, object> attributes)
-        {
-            _attributes = attributes;
-            Attributes = _attributes.Select(x => new { x.Key, Value = x.Value?.ToString() }).ToDictionary(x => x.Key, y => y.Value);
-        }
-
         public AttributesViewModel(IDataObject obj)
         {
-            Attributes = new Dictionary<string, string>();
+            _attributes = new ObservableCollection<AttributeModel>();
 
             foreach (var attr in obj.Attributes)
             {
                 var attrType = obj.Type.Attributes.FirstOrDefault(x => x.Name.Equals(attr.Key));
                 if (attrType == null)
                 {
-                    Attributes.Add(attr.Key, attr.Value?.ToString());
+                    _attributes.Add( new AttributeModel(attr.Key, attr.Value?.ToString(), attrType.Title));
                     continue;
                 }
                 switch (attrType.Type)
                 {
                     case AttributeType.Array:
                     case AttributeType.OrgUnit:
-                        Attributes.Add(attr.Key, (ArrayToString<int>(attr.Value)));
+                        _attributes.Add(new AttributeModel(attr.Key, (ArrayToString<int>(attr.Value)), attrType.Title));
                         break;
                     case AttributeType.Integer:
                     case AttributeType.Double:
@@ -41,7 +34,7 @@ namespace PilotObjectInfo.ViewModels
                     case AttributeType.Numerator:
                     case AttributeType.UserState:
                     default:
-                        Attributes.Add(attr.Key, attr.Value?.ToString());
+                        _attributes.Add(new AttributeModel(attr.Key, attr.Value?.ToString(), attrType.Title));
                         break;
                 }
             }
@@ -53,6 +46,10 @@ namespace PilotObjectInfo.ViewModels
             return $"[{String.Join(",", arr)}]";
         }
 
-        public Dictionary<string, string> Attributes { get; }
+        private ObservableCollection<AttributeModel> _attributes;
+        public ObservableCollection<AttributeModel> Attributes
+        {
+            get => _attributes;
+        }
     }
 }
