@@ -38,6 +38,14 @@ namespace PilotObjectInfo.ViewModels
                         break;
                 }
             }
+
+            foreach (var attribute in obj.Type.Attributes)
+            {
+                if (! _attributes.Any(a => a.Name == attribute.Name))
+                {
+                    _attributes.Add(new AttributeModel(attribute.Name, "атрибут объекта не задан", attribute.Title));
+                }
+            }
         }
 
         private string ArrayToString<T>(object value)
