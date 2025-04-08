@@ -17,7 +17,7 @@ namespace PilotObjectInfo.ViewModels
                 var attrType = obj.Type.Attributes.FirstOrDefault(x => x.Name.Equals(attr.Key));
                 if (attrType == null)
                 {
-                    _attributes.Add( new AttributeModel(attr.Key, attr.Value?.ToString(), attrType.Title));
+                    _attributes.Add( new AttributeModel(attr.Key, "атрибута нет в типе!", string.Empty));
                     continue;
                 }
                 switch (attrType.Type)
