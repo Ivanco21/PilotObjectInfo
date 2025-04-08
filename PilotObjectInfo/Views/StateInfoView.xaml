@@ -6,8 +6,15 @@
              xmlns:local="clr-namespace:PilotObjectInfo.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
+    <Grid Style="{StaticResource PilotGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -46,6 +53,6 @@
         <TextBox  Grid.Row="3"
                    Grid.Column="1"
                    Text="{Binding PositionId, Mode=OneWay}"/>
-        
+
     </Grid>
 </UserControl>

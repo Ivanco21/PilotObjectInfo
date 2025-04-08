@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ascon.Pilot.SDK;
-using Homebrew.Mvvm.Models;
+﻿using Ascon.Pilot.SDK;
 
 namespace PilotObjectInfo.ViewModels
 {
-	class TypeViewModel : ObservableObject
+    class TypeViewModel : Base.ViewModel
     {
 		private IType _type;
 

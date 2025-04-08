@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Ascon.Pilot.SDK;
-using Homebrew.Mvvm.Models;
 
 namespace PilotObjectInfo.ViewModels
 {
-	class AccessViewModel:ObservableObject
+    class AccessViewModel: Base.ViewModel
 	{
 		private ReadOnlyCollection<IAccessRecord> _access2;
 

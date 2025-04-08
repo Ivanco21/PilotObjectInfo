@@ -1,15 +1,10 @@
-﻿using Ascon.Pilot.SDK;
-using Homebrew.Mvvm.Commands;
-using Homebrew.Mvvm.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Ascon.Pilot.SDK;
+using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class MainViewModel : ObservableObject
+    class MainViewModel : Base.ViewModel
     {
         private IDataObject _obj;
         private IFileProvider _fileProvider;

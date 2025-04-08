@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:PilotObjectInfo.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Style="{StaticResource PilotGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -20,7 +29,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="Id"/>
@@ -70,5 +79,4 @@
                    Grid.Column="1"
                    Text="{Binding IsService, Mode=OneWay}"/>
     </Grid>
-    
 </UserControl>

@@ -1,9 +1,9 @@
-﻿using Ascon.Pilot.SDK;
-using Ascon.Pilot.SDK.Menu;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.Text.RegularExpressions;
 using System.Windows;
+using Ascon.Pilot.SDK;
+using Ascon.Pilot.SDK.Menu;
 
 namespace PilotObjectInfo
 {
@@ -48,8 +48,7 @@ namespace PilotObjectInfo
             var match = rgx.Match(clipboardText);
             if (match.Success == false) return;
             var id = new Guid(match.Groups[1].Value);
-            //var obj = (await _objectsRepository.GetObjectsAsync(new Guid[] { id }, o => o, System.Threading.CancellationToken.None)).FirstOrDefault();
-            //if (obj == null) return;
+
             if (name == SHOW_SUB_MENU)
                 DialogService.ShowInfo(id, _objectsRepository, _fileProvider, _tabServiceProvider, _fileModifier);
             if (name == GO_SUB_MENU)
