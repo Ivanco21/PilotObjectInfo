@@ -42,7 +42,12 @@
                     <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
                 </TextBox.InputBindings>
             </TextBox>
-
+            <Button Grid.Column="2" 
+                    Content="to DTO" 
+                    Margin="2"
+                    Command="{Binding GenerateFullDtoCommand}"
+                    CommandParameter="{Binding SelectedType}"/>
+            
             <Button Grid.Column="3" 
                     Content="Show random element" 
                     Margin="2"

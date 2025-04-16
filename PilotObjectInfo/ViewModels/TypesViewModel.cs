@@ -12,6 +12,7 @@ using PilotObjectInfo.Core.Services;
 using System.Threading.Tasks;
 using System;
 using PilotObjectInfo.Core;
+using System.Windows;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -25,6 +26,7 @@ namespace PilotObjectInfo.ViewModels
             TypesView.Filter = FilterTypes;
             this.SearchCommand = new RelayCommand(OnSearchExecuted, CanSearchExecute);
             this.GoToRandomTypeElementCommand = new AsyncRelayCommand(OnGoToRandomTypeElementExecutedAsync, CanGoToRandomTypeElementExecute);
+            this.GenerateFullDtoCommand = new RelayCommand(OnGenerateFullDtoExecuted, CanGenerateFullDtoExecute);
         }
         public ObservableCollection<IType> Types { get; }
 
@@ -110,10 +112,26 @@ namespace PilotObjectInfo.ViewModels
                     throw;
                 }
             }
-            
         }
 
         private bool CanGoToRandomTypeElementExecute(object obj)
+        {
+            return SelectedType != null;
+        }
+        #endregion
+
+        #region Команда "генерация DTO"
+        public ICommand GenerateFullDtoCommand { get; set; }
+        private void OnGenerateFullDtoExecuted(object obj)
+        {
+            if (obj is not IType type)
+                return;
+
+            DtoGeneratorService dtoGeneratorService = new();
+            var dto = dtoGeneratorService.GenerateFullDTO(type);
+            Clipboard.SetText(dto.ToString());
+        }
+        private bool CanGenerateFullDtoExecute(object obj)
         {
             return SelectedType != null;
         }
