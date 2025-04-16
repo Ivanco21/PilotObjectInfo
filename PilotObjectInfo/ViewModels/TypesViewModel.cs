@@ -8,7 +8,10 @@ using System.Collections.ObjectModel;
 using Ascon.Pilot.SDK;
 using PilotObjectInfo.ViewModels.Commands;
 using PilotObjectInfo.Models;
-using System.Windows.Navigation;
+using PilotObjectInfo.Core.Services;
+using System.Threading.Tasks;
+using System;
+using PilotObjectInfo.Core;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -21,6 +24,7 @@ namespace PilotObjectInfo.ViewModels
             TypesView = CollectionViewSource.GetDefaultView(Types);
             TypesView.Filter = FilterTypes;
             this.SearchCommand = new RelayCommand(OnSearchExecuted, CanSearchExecute);
+            this.GoToRandomTypeElementCommand = new AsyncRelayCommand(OnGoToRandomTypeElementExecutedAsync, CanGoToRandomTypeElementExecute);
         }
         public ObservableCollection<IType> Types { get; }
 
@@ -75,6 +79,46 @@ namespace PilotObjectInfo.ViewModels
         }
         #endregion
 
+        #region Команда "показать случайный элемент типа"
+        public ICommand GoToRandomTypeElementCommand { get; set; }
+
+        private async Task OnGoToRandomTypeElementExecutedAsync(object obj)
+        {
+            SearchService searchService = new();
+            int maxGuids = 100;
+
+            if (obj is not IType type)
+                return;
+            
+            IEnumerable<Guid> guids = await searchService.SearchObjectsByTypesAsync(maxGuids, type.Id);
+            if (!guids.Any())
+            {
+                return;
+            }
+
+            Random seededRandom = new();
+            int rnd = seededRandom.Next(guids.Count() - 1);
+            Guid rndGuid = guids.ElementAt(rnd);
+            if (rndGuid != Guid.Empty)
+            {
+                try
+                {
+                    GI.TabServiceProvider.ShowElement(rndGuid, true);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            
+        }
+
+        private bool CanGoToRandomTypeElementExecute(object obj)
+        {
+            return SelectedType != null;
+        }
+        #endregion
+
         #region Selected type
         private IType _selectedType;
         public IType SelectedType
@@ -91,6 +135,7 @@ namespace PilotObjectInfo.ViewModels
             }
         }
         #endregion
+
         #region Описание атрибутов типа
         private ObservableCollection<AttributeDescriptionModel> _attributeDescriptions;
         public ObservableCollection<AttributeDescriptionModel> AttributeDescriptions

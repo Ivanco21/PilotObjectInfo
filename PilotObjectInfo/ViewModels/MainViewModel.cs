@@ -1,5 +1,6 @@
 ﻿using System;
 using Ascon.Pilot.SDK;
+using PilotObjectInfo.Core.Services;
 using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
@@ -9,12 +10,14 @@ namespace PilotObjectInfo.ViewModels
         private IDataObject _obj;
         private IFileProvider _fileProvider;
         private IObjectsRepository _objectsRepository;
+        private ISearchService _searchService;
         private ITabServiceProvider _tabServiceProvider;
         private RelayCommand _goToCommand;
 
-        public MainViewModel(IDataObject obj, IObjectsRepository objectsRepository, FileModifier fileModifier, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider)
+        public MainViewModel(IDataObject obj, IObjectsRepository objectsRepository, ISearchService searchService, FileModifier fileModifier, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider)
         {
             _obj = obj;
+            _searchService = searchService;
             _fileProvider = fileProvider;
             _objectsRepository = objectsRepository;
             _tabServiceProvider = tabServiceProvider;
@@ -26,9 +29,9 @@ namespace PilotObjectInfo.ViewModels
             SnapshotsVm = new SnapshotsViewModel(_obj.Id, _obj.PreviousFileSnapshots, _fileProvider);
 
             AccessVm = new AccessViewModel(_obj.Access2);
-            RelationsVm = new RelationsViewModel(obj.Relations, _objectsRepository, _fileProvider, _tabServiceProvider, fileModifier);
+            RelationsVm = new RelationsViewModel(obj.Relations, _objectsRepository, _searchService, _fileProvider, _tabServiceProvider, fileModifier);
             StateInfoVm = new StateInfoViewModel(obj.ObjectStateInfo);
-            ChildrenVm = new ChildrenViewModel(obj.Children, _objectsRepository, _fileProvider, _tabServiceProvider, fileModifier);
+            ChildrenVm = new ChildrenViewModel(obj.Children, _objectsRepository, _searchService, _fileProvider, _tabServiceProvider, fileModifier);
             PeopleVm = new PeopleViewModel(_objectsRepository.GetPeople());
             OrgUnitsVm = new OrgUnitsViewModel(_objectsRepository.GetOrganisationUnits());
             TypesVm = new TypesViewModel(_objectsRepository.GetTypes());

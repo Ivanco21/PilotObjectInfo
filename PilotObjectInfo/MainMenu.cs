@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using Ascon.Pilot.SDK;
 using Ascon.Pilot.SDK.Menu;
+using PilotObjectInfo.Core.Services;
 
 namespace PilotObjectInfo
 {
@@ -13,6 +14,7 @@ namespace PilotObjectInfo
     {
         
         IObjectsRepository _objectsRepository;
+        private ISearchService _searchService;
         private IFileProvider _fileProvider;
         private ITabServiceProvider _tabServiceProvider;
         private IObjectModifier _objectModifier;
@@ -22,9 +24,10 @@ namespace PilotObjectInfo
         private const string GUID_PATTERN = @"([0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12})";
 
         [ImportingConstructor]
-        public MainMenu(IObjectsRepository objectsRepository, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider, IObjectModifier objectModifier)
+        public MainMenu(IObjectsRepository objectsRepository, ISearchService searchService, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider, IObjectModifier objectModifier)
         {
             _objectsRepository = objectsRepository;
+            _searchService = searchService;
             _fileProvider = fileProvider;
             _tabServiceProvider = tabServiceProvider;
             _objectModifier = objectModifier;
@@ -50,7 +53,7 @@ namespace PilotObjectInfo
             var id = new Guid(match.Groups[1].Value);
 
             if (name == SHOW_SUB_MENU)
-                DialogService.ShowInfo(id, _objectsRepository, _fileProvider, _tabServiceProvider, _fileModifier);
+                DialogService.ShowInfo(id, _objectsRepository, _searchService, _fileProvider, _tabServiceProvider, _fileModifier);
             if (name == GO_SUB_MENU)
                 _tabServiceProvider.ShowElement(id);
 
