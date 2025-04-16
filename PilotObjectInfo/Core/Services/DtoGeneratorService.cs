@@ -10,7 +10,7 @@ namespace PilotObjectInfo.Core.Services
         internal StringBuilder GenerateFullDTO(IType type)
         {
             StringBuilder sb = new();
-            string dName = $"{type.Name.ToLower()}DTO".FirstCharToUpper();
+            string dName = $"{type.Name.SnakeToPascalCase()}DTO";
 
             sb.AppendLine($"internal class {dName} : ObjectDTO");
             sb.AppendLine($"{{");
@@ -31,7 +31,7 @@ namespace PilotObjectInfo.Core.Services
 
             foreach (IAttribute attr in type.Attributes)
             {
-                sb.AppendLine($"    internal {attr.Type.ToString().ToLower()} {attr.Name.ToLower().FirstCharToUpper()} {{ get; set; }}");
+                sb.AppendLine($"    internal {attr.Type.ToString().ToLower()} {attr.Name.SnakeToPascalCase()} {{ get; set; }}");
             }
             sb.AppendLine();
 
@@ -39,7 +39,7 @@ namespace PilotObjectInfo.Core.Services
             sb.AppendLine($"    {{");
             foreach (IAttribute attr in type.Attributes)
             {
-                sb.AppendLine($"        {attr.Name.ToLower().FirstCharToUpper()} = Attrs.GetAttributeStrOrEmpty({attr.Name.ToUpper()});");
+                sb.AppendLine($"        {attr.Name.SnakeToPascalCase()} = Attrs.GetAttributeStrOrEmpty({attr.Name.ToUpper()});");
             }
             sb.AppendLine($"    }}");
             sb.AppendLine();
