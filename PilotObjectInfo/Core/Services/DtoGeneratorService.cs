@@ -49,7 +49,7 @@ namespace PilotObjectInfo.Core.Services
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// {attr.Title}");
                 sb.AppendLine($"    /// </summary>");
-                sb.AppendLine($"    internal const {attr.Type.ToString().ToLower()} {attr.Name.ToUpper()} = \"{attr.Name}\";");
+                sb.AppendLine($"    internal const string {attr.Name.ToUpper()} = \"{attr.Name}\";");
                 sb.AppendLine();
             }
             sb.AppendLine($"}}");
