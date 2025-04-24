@@ -49,7 +49,10 @@ namespace PilotObjectInfo.ViewModels
             if (obj is IType type)
             {
                 return type.Name.ToLower().Contains(search) || 
-                       type.Attributes.Any(a => a.Name.ToLower().Contains(search));
+                       type.Title.ToLower().Contains(search) ||
+                       type.Attributes.Any(a => a.Name.ToLower().Contains(search)) ||
+                       type.Attributes.Any(a => a.Title.ToLower().Contains(search));
+
             }
 
             return false;
