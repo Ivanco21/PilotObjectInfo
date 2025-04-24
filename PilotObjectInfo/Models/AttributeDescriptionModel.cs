@@ -13,9 +13,12 @@ namespace PilotObjectInfo.Models
         {
             Name = attribute.Name;
             Title = attribute.Title;
+            Type = attribute.Type.ToString();
         }
 
         public string Name { get; set; }
         public string Title { get; set; }
+        public string Type { get; set; }
+
     }
 }

@@ -17,12 +17,14 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name"
                                     Width="Auto"
-                                    Binding="{Binding Name, Mode=OneWay}"/>
+                                    Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Title"
                                     Width="Auto"
-                                    Binding="{Binding Title, Mode=OneWay}"/>
+                                    Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Value"
-                                    Binding="{Binding Value, Mode=OneWay}"/>
+                                    Binding="{Binding Value}"/>
+                <DataGridTextColumn Header="Type"
+                                    Binding="{Binding Type}"/>
             </DataGrid.Columns>
         </DataGrid>  
     </Grid>

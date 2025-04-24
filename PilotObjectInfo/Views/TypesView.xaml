@@ -107,6 +107,9 @@
                     <DataGridTextColumn Header="Title"
                                         Binding="{Binding Title}"
                                         Width="*"/>
+                    <DataGridTextColumn Header="Type"
+                                        Binding="{Binding Type}"
+                                        Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
