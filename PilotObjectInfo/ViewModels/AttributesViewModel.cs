@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Xml.Linq;
 using Ascon.Pilot.SDK;
-using Microsoft.Expression.Interactivity.Layout;
 using PilotObjectInfo.Models;
 
 namespace PilotObjectInfo.ViewModels
@@ -18,17 +16,9 @@ namespace PilotObjectInfo.ViewModels
             {
                 AttributeModel attModel = new();
                 attModel.Name = attr.Key;
-                if (obj.Type.Attributes.Any(a => a.Name == attr.Key))
-                {
-                    attModel.Type = obj.Type.Attributes.First(a => a.Name == attr.Key).Type.ToString();
-                }
-                else
-                {
-                    attModel.Type = string.Empty;
-                }
+                attModel.Type = GetAttrType(obj, attr.Key);
 
-
-                var attrType = obj.Type.Attributes.FirstOrDefault(x => x.Name.Equals(attr.Key));
+               var attrType = obj.Type.Attributes.FirstOrDefault(x => x.Name.Equals(attr.Key));
                 if (attrType == null)
                 {
                     attModel.Value = "атрибута нет в типе!";
@@ -62,8 +52,29 @@ namespace PilotObjectInfo.ViewModels
             {
                 if (! _attributes.Any(a => a.Name == attribute.Name))
                 {
-                    _attributes.Add(new AttributeModel(attribute.Name, "атрибут объекта не задан", attribute.Title));
+                    AttributeModel attModel = new()
+                    {
+                        Name = attribute.Name,
+                        Value = "атрибут объекта не задан",
+                        Title = attribute.Title,
+                        Type = GetAttrType(obj, attribute.Name)
+                    };
+
+                    _attributes.Add(attModel);
                 }
+            }
+        }
+
+        private string GetAttrType(IDataObject obj, string attrName)
+        {
+            
+            if (obj.Type.Attributes.Any(a => a.Name == attrName))
+            {
+                return obj.Type.Attributes.First(a => a.Name == attrName).Type.ToString();
+            }
+            else
+            {
+                return string.Empty;
             }
         }
 
