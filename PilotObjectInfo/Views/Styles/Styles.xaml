@@ -3,15 +3,4 @@
     
     <SolidColorBrush x:Key="Pilot.Dark.Background" Color="#1e1e1e" />
     
-
-    <Style x:Key="PilotGridStyle" TargetType="{x:Type Grid}">
-        <Style.Resources>
-            <Style TargetType="{x:Type TextBox}">
-                <Setter Property="Background" Value="{StaticResource Pilot.Dark.Background}" />
-                <Setter Property="Foreground" Value="White" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="IsReadOnly" Value="True" />
-            </Style>
-        </Style.Resources>
-    </Style>
 </ResourceDictionary>
