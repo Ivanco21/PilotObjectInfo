@@ -44,10 +44,10 @@ namespace PilotObjectInfo.ViewModels
             {
                 if (value != null)
                 {
-                    SignnaturesInfo = new SignnaturesInfoViewModel(value);
+                    SignaturesInfo = new SignnaturesInfoViewModel(value);
                     FileContent = GetFileContent(value);
                 }
-                else SignnaturesInfo = null;
+                else SignaturesInfo = null;
 
             }
         }
@@ -73,7 +73,7 @@ namespace PilotObjectInfo.ViewModels
         }
 
         private SignnaturesInfoViewModel _signnaturesInfo;
-        public SignnaturesInfoViewModel SignnaturesInfo
+        public SignnaturesInfoViewModel SignaturesInfo
         {
             get { return _signnaturesInfo; }
             set => Set(ref _signnaturesInfo, value);

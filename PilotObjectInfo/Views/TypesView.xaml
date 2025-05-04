@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:PilotObjectInfo.Views"
              xmlns:vetools="clr-namespace:Ascon.Pilot.VisualElements.Tools;assembly=Ascon.Pilot.VisualElements" 
              xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:bh="clr-namespace:PilotObjectInfo.Behaviors" 
              d:DataContext="{d:DesignInstance Type=viewmodels:TypesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -66,8 +68,10 @@
                       ItemsSource="{Binding Types}"
                       AutoGenerateColumns="False"
                       IsReadOnly="True"
-                      ClipboardCopyMode="IncludeHeader"
                       SelectedItem="{Binding Path=SelectedType}">
+                <i:Interaction.Behaviors>
+                    <bh:CopyCellValueBehavior Key="C"/>
+                </i:Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
@@ -100,6 +104,9 @@
                   ItemsSource="{Binding AttributeDescriptions, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True" Grid.ColumnSpan="3" Margin="3,0,0,0">
+                <i:Interaction.Behaviors>
+                    <bh:CopyCellValueBehavior Key="C"/>
+                </i:Interaction.Behaviors>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name"
                                         Binding="{Binding Name}"
