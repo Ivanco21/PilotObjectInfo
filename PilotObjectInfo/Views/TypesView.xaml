@@ -28,7 +28,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                 Text="Search:"
-                Foreground="White"
+                Foreground="Black"
                 VerticalAlignment="Center">
             </TextBlock>
             <TextBox Grid.Column="1"
@@ -36,6 +36,8 @@
                      Margin="2"
                      Height="25" 
                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     BorderBrush="Black"
+                     BorderThickness="0.5"
                      Background="White"
                      Foreground="Black"
                      IsReadOnly="False"
