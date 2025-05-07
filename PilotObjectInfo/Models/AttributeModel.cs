@@ -1,4 +1,6 @@
 ﻿
+using Ascon.Pilot.SDK;
+
 namespace PilotObjectInfo.Models
 {
     public class AttributeModel
@@ -12,6 +14,13 @@ namespace PilotObjectInfo.Models
             Name = name;
             Value = value;
             Title = title;
+        }
+
+        public AttributeModel(IAttribute attribute)
+        {
+            Name = attribute.Name;
+            Title = attribute.Title;
+            Type = attribute.Type.ToString();
         }
 
         public string Name { get; set; }

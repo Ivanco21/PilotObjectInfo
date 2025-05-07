@@ -150,16 +150,16 @@ namespace PilotObjectInfo.ViewModels
                 Set(ref _selectedType, value);
                 if (_selectedType != null)
                 {
-                    var tmp = _selectedType.Attributes.Select(a => new AttributeDescriptionModel(a));
-                    AttributeDescriptions = new ObservableCollection<AttributeDescriptionModel>(tmp);
+                    var tmp = _selectedType.Attributes.Select(a => new AttributeModel(a));
+                    AttributeDescriptions = new ObservableCollection<AttributeModel>(tmp);
                 }
             }
         }
         #endregion
 
         #region Описание атрибутов типа
-        private ObservableCollection<AttributeDescriptionModel> _attributeDescriptions;
-        public ObservableCollection<AttributeDescriptionModel> AttributeDescriptions
+        private ObservableCollection<AttributeModel> _attributeDescriptions;
+        public ObservableCollection<AttributeModel> AttributeDescriptions
         {
             get => _attributeDescriptions;
             set => Set(ref _attributeDescriptions, value);
