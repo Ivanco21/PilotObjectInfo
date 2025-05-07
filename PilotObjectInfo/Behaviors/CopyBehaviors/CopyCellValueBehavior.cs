@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 
-namespace PilotObjectInfo.Behaviors
+namespace PilotObjectInfo.Behaviors.CopyBehaviors
 {
-    public class CopyCellValueBehavior : Behavior<DataGrid>
+    abstract public class CopyCellValueBehavior : Behavior<DataGrid>, ICustomDataGridRowCopy
     {
         public static readonly DependencyProperty KeyProperty =
             DependencyProperty.Register("Key", typeof(Key), typeof(CopyCellValueBehavior),
@@ -16,6 +16,7 @@ namespace PilotObjectInfo.Behaviors
             get => (Key)GetValue(KeyProperty);
             set => SetValue(KeyProperty, value);
         }
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -30,19 +31,9 @@ namespace PilotObjectInfo.Behaviors
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (sender is not DataGrid)
-            {
-                return;
-            }
-
-            var dataGrid = sender as DataGrid;
-            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.C)
-            {
-                var currentCell = dataGrid.CurrentCell;
-                var content = currentCell.Column.GetCellContent(currentCell.Item) as TextBlock;
-                Clipboard.SetText(content.Text); 
-                e.Handled = true;
-            }
+            this.OnPreviewKeyDownCustom(sender, e);
         }
+
+        public abstract void OnPreviewKeyDownCustom(object sender, KeyEventArgs e);
     }
 }

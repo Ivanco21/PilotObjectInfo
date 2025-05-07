@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PilotObjectInfo" 
              xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:bh="clr-namespace:PilotObjectInfo.Behaviors"
+             xmlns:bh="clr-namespace:PilotObjectInfo.Behaviors.CopyBehaviors"
              d:DataContext="{d:DesignInstance Type=viewmodels:AttributesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -25,7 +25,7 @@
                   IsReadOnly="True"
                   ClipboardCopyMode="ExcludeHeader">
             <i:Interaction.Behaviors>
-                <bh:CopyCellValueBehavior Key="C"/>
+                <bh:AttrsCopyCellValueBehavior Key="C"/>
             </i:Interaction.Behaviors>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name"
