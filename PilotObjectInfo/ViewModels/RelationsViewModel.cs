@@ -9,25 +9,12 @@ namespace PilotObjectInfo.ViewModels
     class RelationsViewModel : Base.ViewModel
     {
 		private ReadOnlyCollection<IRelation> _relations;
-        private IObjectsRepository _objectsRepository;
-        private ISearchService _searchService;
-        private IFileProvider _fileProvider;
-        private ITabServiceProvider _tabServiceProvider;
         private FileModifier _fileModifier;
         private RelayCommand _showInfoCmd;
 
-        public RelationsViewModel(ReadOnlyCollection<IRelation> relations,
-            IObjectsRepository objectsRepository,
-            ISearchService searchService,
-            IFileProvider fileProvider,
-            ITabServiceProvider tabServiceProvider,
-            FileModifier fileModifier)
+        public RelationsViewModel(ReadOnlyCollection<IRelation> relations, FileModifier fileModifier)
 		{
 			_relations = relations;
-            _objectsRepository = objectsRepository;
-            _searchService = searchService;
-            _fileProvider = fileProvider;
-            _tabServiceProvider = tabServiceProvider;
             _fileModifier = fileModifier;
         }
 
@@ -48,7 +35,7 @@ namespace PilotObjectInfo.ViewModels
         private void DoShowInfo(object obj)
         {
             Guid id = (Guid)obj;
-            DialogService.ShowInfo(id, _objectsRepository, _searchService, _fileProvider, _tabServiceProvider, _fileModifier);
+            DialogService.ShowInfo(id, _fileModifier);
         }
     }
 }

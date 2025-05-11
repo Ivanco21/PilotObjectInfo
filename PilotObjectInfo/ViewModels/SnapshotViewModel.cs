@@ -1,19 +1,17 @@
-﻿using Ascon.Pilot.SDK;
-using System;
+﻿using System;
+using Ascon.Pilot.SDK;
 
 namespace PilotObjectInfo.ViewModels
 {
     class SnapshotViewModel
     {
         private IFilesSnapshot _filesSnapshot;
-        private IFileProvider _fileProvider;
         private FilesViewModel _files;
 
-        public SnapshotViewModel(Guid objectId,  IFilesSnapshot filesSnapshot, IFileProvider fileProvider)
+        public SnapshotViewModel(Guid objectId,  IFilesSnapshot filesSnapshot)
         {
             _filesSnapshot = filesSnapshot;
-            _fileProvider = fileProvider;
-            _files = new FilesViewModel(objectId, _filesSnapshot.Files, fileProvider);
+            _files = new FilesViewModel(objectId, _filesSnapshot.Files);
 
         }
 

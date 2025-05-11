@@ -8,21 +8,14 @@ namespace PilotObjectInfo.ViewModels
     class ChildrenViewModel :  Base.ViewModel
     {
         private IEnumerable<Guid> _children;
-        private IObjectsRepository _objectsRepository;
-        ISearchService _searchService;
         private FileModifier _fileModifier;
-        private IFileProvider _fileProvider;
-        private ITabServiceProvider _tabServiceProvider;
+
         private RelayCommand _showInfoCmd;
 
-        public ChildrenViewModel(IEnumerable<Guid> children, IObjectsRepository objectsRepository, ISearchService searchService, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider, FileModifier fileModifier)
+        public ChildrenViewModel(IEnumerable<Guid> children, FileModifier fileModifier)
         {
             _children = children;
-            _objectsRepository = objectsRepository;
-            _searchService = searchService;
             _fileModifier = fileModifier;
-            _fileProvider = fileProvider;
-            _tabServiceProvider = tabServiceProvider;
         }
 
         public IEnumerable<Guid> Children => _children;
@@ -42,7 +35,7 @@ namespace PilotObjectInfo.ViewModels
         private void DoShowInfo(object obj)
         {
             Guid id = (Guid)obj;
-            DialogService.ShowInfo(id, _objectsRepository, _searchService, _fileProvider, _tabServiceProvider, _fileModifier);
+            DialogService.ShowInfo(id, _fileModifier);
         }
     }
 }

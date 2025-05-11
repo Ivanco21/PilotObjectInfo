@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows;
 using Ascon.Pilot.SDK;
 using Microsoft.Win32;
+using PilotObjectInfo.Core;
 using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
@@ -15,18 +16,16 @@ namespace PilotObjectInfo.ViewModels
     {
         private Guid _objectId;
         private ReadOnlyCollection<IFile> _files;
-        private IFileProvider _fileProvider;
         private FileModifier _fileModifier;
         private RelayCommand _downloadCmd;
         private RelayCommand _downloadAllCmd;
         private RelayCommand _addFilesCmd;
         private RelayCommand _delFileCmd;
 
-        public FilesViewModel(Guid objectId, ReadOnlyCollection<IFile> files, IFileProvider fileProvider, FileModifier fileModifier = null)
+        public FilesViewModel(Guid objectId, ReadOnlyCollection<IFile> files, FileModifier fileModifier = null)
         {
             _objectId = objectId;
             _files = files;
-            _fileProvider = fileProvider;
             _fileModifier = fileModifier;
             Files = new ObservableCollection<IFile>(_files);
 
@@ -54,7 +53,7 @@ namespace PilotObjectInfo.ViewModels
 
         private string GetFileContent(IFile file)
         {
-            using (var stream = _fileProvider.OpenRead(file))
+            using (var stream = GI.FileProvider.OpenRead(file))
             {
                 var memoryStream = new MemoryStream();
                 stream.CopyTo(memoryStream);
@@ -170,7 +169,7 @@ namespace PilotObjectInfo.ViewModels
 
                 foreach (var file in _files)
                 {
-                    using (var stream = _fileProvider.OpenRead(file))
+                    using (var stream = GI.FileProvider.OpenRead(file))
                     {
                         try
                         {
@@ -196,7 +195,7 @@ namespace PilotObjectInfo.ViewModels
             dlg.DefaultExt = Path.GetExtension(file.Name);
             dlg.FileName = file.Name;
             if (dlg.ShowDialog() != true) return;
-            using (var stream = _fileProvider.OpenRead(file))
+            using (var stream = GI.FileProvider.OpenRead(file))
             {
                 try
                 {
