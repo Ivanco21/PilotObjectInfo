@@ -4,43 +4,123 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PilotObjectInfo.Views"
-             xmlns:vetools="clr-namespace:Ascon.Pilot.VisualElements.Tools;assembly=Ascon.Pilot.VisualElements"
+             xmlns:vetools="clr-namespace:Ascon.Pilot.VisualElements.Tools;assembly=Ascon.Pilot.VisualElements" 
+             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:bh="clr-namespace:PilotObjectInfo.Behaviors.CopyBehaviors" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:TypesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <vetools:ByteImageConverter x:Key ="ByteImageConverter"/>
     </UserControl.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding Types}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid  Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                Text="Search:"
+                Foreground="Black"
+                VerticalAlignment="Center">
+            </TextBlock>
+            <TextBox Grid.Column="1"
+                x:Name="SearchTextBox"
+                     Margin="2"
+                     Height="25" 
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     BorderBrush="Black"
+                     BorderThickness="0.5"
+                     Background="White"
+                     Foreground="Black"
+                     IsReadOnly="False"
+                     VerticalContentAlignment="Center">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Grid.Column="2" 
+                    Content="to DTO" 
+                    Margin="2"
+                    Command="{Binding GenerateFullDtoCommand}"
+                    CommandParameter="{Binding SelectedType}"/>
+            
+            <Button Grid.Column="3" 
+                    Content="Show random element" 
+                    Margin="2"
+                    Command="{Binding GoToRandomTypeElementCommand}"
+                    CommandParameter="{Binding SelectedType}"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="531*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="178*"/>
+                <ColumnDefinition Width="88*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0"
+                      ItemsSource="{Binding Types}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      SelectedItem="{Binding Path=SelectedType}">
+                <i:Interaction.Behaviors>
+                    <bh:TypesMainCopyCellValueBehavior Key="C"/>
+                </i:Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding SvgIcon, Converter={StaticResource ByteImageConverter}}"
+                           Width="16" Height="16"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Id" 
+                            Binding="{Binding Id, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Name"
+                            Binding="{Binding Name, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Title"
+                            Binding="{Binding Title, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Kind"
+                            Binding="{Binding Kind, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="IsMountable"
+                            Binding="{Binding IsMountable, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="IsDeleted"
+                            Binding="{Binding IsDeleted, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="IsProject"
+                            Binding="{Binding IsProject, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="IsAdmin"
+                            Binding="{Binding IsService, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"/>
+            <DataGrid Grid.Column="1"
+                  ItemsSource="{Binding AttributeDescriptions, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                   ClipboardCopyMode="IncludeHeader">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding SvgIcon, Converter={StaticResource ByteImageConverter}}"
-                                   Width="16" Height="16"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Id" 
-                                    Binding="{Binding Id, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Name"
-                                    Binding="{Binding Name, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Title"
-                                    Binding="{Binding Title, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Kind"
-                                    Binding="{Binding Kind, Mode=OneWay}"/>
-                <DataGridTextColumn Header="IsMountable"
-                                    Binding="{Binding IsMountable, Mode=OneWay}"/>
-                <DataGridTextColumn Header="IsDeleted"
-                                    Binding="{Binding IsDeleted, Mode=OneWay}"/>
-                <DataGridTextColumn Header="IsProject"
-                                    Binding="{Binding IsProject, Mode=OneWay}"/>
-                <DataGridTextColumn Header="IsAdmin"
-                                    Binding="{Binding IsService, Mode=OneWay}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                  IsReadOnly="True" Grid.ColumnSpan="3" Margin="3,0,0,0">
+                <i:Interaction.Behaviors>
+                    <bh:TypesAttrsCopyCellValueBehavior Key="C"/>
+                </i:Interaction.Behaviors>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name"
+                                        Binding="{Binding Name}"
+                                        Width="*"/>
+                    <DataGridTextColumn Header="Title"
+                                        Binding="{Binding Title}"
+                                        Width="*"/>
+                    <DataGridTextColumn Header="Type"
+                                        Binding="{Binding Type}"
+                                        Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </UserControl>

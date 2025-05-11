@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using Ascon.Pilot.SDK;
 using Ascon.Pilot.SDK.Menu;
+using PilotObjectInfo.Core;
 
 namespace PilotObjectInfo
 {
@@ -11,24 +12,20 @@ namespace PilotObjectInfo
     [Export(typeof(IMenu<MainViewContext>))]
     public class MainMenu : IMenu<MainViewContext>
     {
-        
-        IObjectsRepository _objectsRepository;
-        private IFileProvider _fileProvider;
-        private ITabServiceProvider _tabServiceProvider;
-        private IObjectModifier _objectModifier;
         private FileModifier _fileModifier;
         private const string SHOW_SUB_MENU = "ShowObjectInfo";
         private const string GO_SUB_MENU = "GoToObject";
         private const string GUID_PATTERN = @"([0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12})";
 
         [ImportingConstructor]
-        public MainMenu(IObjectsRepository objectsRepository, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider, IObjectModifier objectModifier)
+        public MainMenu(IObjectsRepository objectsRepository, ISearchService searchService, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider, IObjectModifier objectModifier)
         {
-            _objectsRepository = objectsRepository;
-            _fileProvider = fileProvider;
-            _tabServiceProvider = tabServiceProvider;
-            _objectModifier = objectModifier;
-            _fileModifier = new FileModifier(_objectModifier, _objectsRepository);
+            GI.Repository = objectsRepository;
+            GI.SearchService = searchService;
+            GI.FileProvider = fileProvider;
+            GI.TabServiceProvider = tabServiceProvider;
+            GI.Modifier = objectModifier;
+            _fileModifier = new();
 
         }
 
@@ -50,10 +47,9 @@ namespace PilotObjectInfo
             var id = new Guid(match.Groups[1].Value);
 
             if (name == SHOW_SUB_MENU)
-                DialogService.ShowInfo(id, _objectsRepository, _fileProvider, _tabServiceProvider, _fileModifier);
+                DialogService.ShowInfo(id, _fileModifier);
             if (name == GO_SUB_MENU)
-                _tabServiceProvider.ShowElement(id);
-
+                GI.TabServiceProvider.ShowElement(id);
         }
     }
 }

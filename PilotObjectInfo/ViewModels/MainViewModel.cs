@@ -1,40 +1,42 @@
-﻿using System;
-using Ascon.Pilot.SDK;
+﻿using Ascon.Pilot.SDK;
+using PilotObjectInfo.Core;
+using PilotObjectInfo.Core.Services;
 using PilotObjectInfo.ViewModels.Commands;
+using System;
+using System.Windows.Input;
 
 namespace PilotObjectInfo.ViewModels
 {
     class MainViewModel : Base.ViewModel
     {
         private IDataObject _obj;
-        private IFileProvider _fileProvider;
-        private IObjectsRepository _objectsRepository;
-        private ITabServiceProvider _tabServiceProvider;
+
         private RelayCommand _goToCommand;
 
-        public MainViewModel(IDataObject obj, IObjectsRepository objectsRepository, FileModifier fileModifier, IFileProvider fileProvider, ITabServiceProvider tabServiceProvider)
+        public MainViewModel(IDataObject obj, FileModifier fileModifier)
         {
             _obj = obj;
-            _fileProvider = fileProvider;
-            _objectsRepository = objectsRepository;
-            _tabServiceProvider = tabServiceProvider;
-            
+
             AttributesVm = new AttributesViewModel(_obj);
             TypeVm = new TypeViewModel(_obj.Type);
             CreatorVm = new CreatorViewModel(_obj.Creator);
-            FilesVm = new FilesViewModel(obj.Id, _obj.Files, _fileProvider, fileModifier);
-            SnapshotsVm = new SnapshotsViewModel(_obj.Id, _obj.PreviousFileSnapshots, _fileProvider);
+            FilesVm = new FilesViewModel(obj.Id, _obj.Files, fileModifier);
+            SnapshotsVm = new SnapshotsViewModel(_obj.Id, _obj.PreviousFileSnapshots);
 
             AccessVm = new AccessViewModel(_obj.Access2);
-            RelationsVm = new RelationsViewModel(obj.Relations, _objectsRepository, _fileProvider, _tabServiceProvider, fileModifier);
+            RelationsVm = new RelationsViewModel(obj.Relations, fileModifier);
             StateInfoVm = new StateInfoViewModel(obj.ObjectStateInfo);
-            ChildrenVm = new ChildrenViewModel(obj.Children, _objectsRepository, _fileProvider, _tabServiceProvider, fileModifier);
-            PeopleVm = new PeopleViewModel(_objectsRepository.GetPeople());
-            OrgUnitsVm = new OrgUnitsViewModel(_objectsRepository.GetOrganisationUnits());
-            TypesVm = new TypesViewModel(_objectsRepository.GetTypes());
-            UserStatesVm = new UserStatesViewModel( _objectsRepository.GetUserStates());
+            ChildrenVm = new ChildrenViewModel(obj.Children, fileModifier);
+            PeopleVm = new PeopleViewModel(GI.Repository.GetPeople());
+            OrgUnitsVm = new OrgUnitsViewModel(GI.Repository.GetOrganisationUnits());
+            TypesVm = new TypesViewModel(GI.Repository.GetTypes());
+            UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
 
-            _objectsRepository.GetOrganisationUnits();
+            GI.Repository.GetOrganisationUnits();
+
+            #region Commands
+            this.GoToDataObjectCommand = new RelayCommand(OnGoToDataObjectExecuted, CanGoToDataObjectExecute);
+            #endregion
         }
 
         public Guid Id => _obj.Id;
@@ -47,7 +49,7 @@ namespace PilotObjectInfo.ViewModels
 
         public Guid ParentId => _obj.ParentId;
 
-        public int CurrentUserId => _objectsRepository.GetCurrentPerson().Id;
+        public int CurrentUserId => GI.Repository.GetCurrentPerson().Id;
 
         public AttributesViewModel AttributesVm { get; }
         public TypeViewModel TypeVm { get; }
@@ -64,22 +66,18 @@ namespace PilotObjectInfo.ViewModels
 
         public TypesViewModel TypesVm { get; }
 
-        public RelayCommand GoToCommand
-        {
-            get
-            {
-                if (_goToCommand == null)
-                {
-                    _goToCommand = new RelayCommand(DoGoTo);
-                }
-                return _goToCommand;
 
-            }
-        }
-
-        private void DoGoTo(object obj)
+        #region Команда Переход к объекту
+        public ICommand GoToDataObjectCommand { get; set; }
+        private void OnGoToDataObjectExecuted(object obj)
         {
-            _tabServiceProvider.ShowElement(Id);
+            Guid id = (Guid)obj;
+            GI.TabServiceProvider.ShowElement(id);
         }
+        private bool CanGoToDataObjectExecute(object obj)
+        {
+            return obj != null && obj is Guid;
+        }
+        #endregion
     }
 }

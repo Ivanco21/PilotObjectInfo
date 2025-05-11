@@ -14,17 +14,23 @@ namespace PilotObjectInfo.ViewModels
 
             foreach (var attr in obj.Attributes)
             {
-                var attrType = obj.Type.Attributes.FirstOrDefault(x => x.Name.Equals(attr.Key));
+                AttributeModel attModel = new();
+                attModel.Name = attr.Key;
+                attModel.Type = GetAttrType(obj, attr.Key);
+
+               var attrType = obj.Type.Attributes.FirstOrDefault(x => x.Name.Equals(attr.Key));
                 if (attrType == null)
                 {
-                    _attributes.Add( new AttributeModel(attr.Key, "атрибута нет в типе!", string.Empty));
+                    attModel.Value = "атрибута нет в типе!";
+                    attModel.Title = string.Empty;
                     continue;
                 }
                 switch (attrType.Type)
                 {
                     case AttributeType.Array:
                     case AttributeType.OrgUnit:
-                        _attributes.Add(new AttributeModel(attr.Key, (ArrayToString<int>(attr.Value)), attrType.Title));
+                        attModel.Value = (ArrayToString<int>(attr.Value));
+                        attModel.Title = attrType.Title;
                         break;
                     case AttributeType.Integer:
                     case AttributeType.Double:
@@ -34,17 +40,41 @@ namespace PilotObjectInfo.ViewModels
                     case AttributeType.Numerator:
                     case AttributeType.UserState:
                     default:
-                        _attributes.Add(new AttributeModel(attr.Key, attr.Value?.ToString(), attrType.Title));
+                        attModel.Value = attr.Value?.ToString();
+                        attModel.Title = attrType.Title;
                         break;
                 }
+
+                _attributes.Add(attModel);
             }
 
             foreach (var attribute in obj.Type.Attributes)
             {
                 if (! _attributes.Any(a => a.Name == attribute.Name))
                 {
-                    _attributes.Add(new AttributeModel(attribute.Name, "атрибут объекта не задан", attribute.Title));
+                    AttributeModel attModel = new()
+                    {
+                        Name = attribute.Name,
+                        Value = "атрибут объекта не задан",
+                        Title = attribute.Title,
+                        Type = GetAttrType(obj, attribute.Name)
+                    };
+
+                    _attributes.Add(attModel);
                 }
+            }
+        }
+
+        private string GetAttrType(IDataObject obj, string attrName)
+        {
+            
+            if (obj.Type.Attributes.Any(a => a.Name == attrName))
+            {
+                return obj.Type.Attributes.First(a => a.Name == attrName).Type.ToString();
+            }
+            else
+            {
+                return string.Empty;
             }
         }
 

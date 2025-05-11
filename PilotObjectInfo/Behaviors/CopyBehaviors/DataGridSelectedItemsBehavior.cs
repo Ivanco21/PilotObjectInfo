@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 
-namespace PilotObjectInfo.Behaviors
+namespace PilotObjectInfo.Behaviors.CopyBehaviors
 {
     class DataGridSelectedItemsBehavior : Behavior<DataGrid>
     {
