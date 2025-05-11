@@ -1,7 +1,9 @@
-﻿using System;
-using Ascon.Pilot.SDK;
+﻿using Ascon.Pilot.SDK;
 using PilotObjectInfo.Core;
+using PilotObjectInfo.Core.Services;
 using PilotObjectInfo.ViewModels.Commands;
+using System;
+using System.Windows.Input;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -31,6 +33,10 @@ namespace PilotObjectInfo.ViewModels
             UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
 
             GI.Repository.GetOrganisationUnits();
+
+            #region Commands
+            this.GoToDataObjectCommand = new RelayCommand(OnGoToDataObjectExecuted, CanGoToDataObjectExecute);
+            #endregion
         }
 
         public Guid Id => _obj.Id;
@@ -60,22 +66,18 @@ namespace PilotObjectInfo.ViewModels
 
         public TypesViewModel TypesVm { get; }
 
-        public RelayCommand GoToCommand
-        {
-            get
-            {
-                if (_goToCommand == null)
-                {
-                    _goToCommand = new RelayCommand(DoGoTo);
-                }
-                return _goToCommand;
 
-            }
-        }
-
-        private void DoGoTo(object obj)
+        #region Команда Переход к объекту
+        public ICommand GoToDataObjectCommand { get; set; }
+        private void OnGoToDataObjectExecuted(object obj)
         {
-            GI.TabServiceProvider.ShowElement(Id);
+            Guid id = (Guid)obj;
+            GI.TabServiceProvider.ShowElement(id);
         }
+        private bool CanGoToDataObjectExecute(object obj)
+        {
+            return obj != null && obj is Guid;
+        }
+        #endregion
     }
 }

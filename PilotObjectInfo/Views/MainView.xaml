@@ -32,24 +32,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0"
+        <TextBlock Grid.Row="0" 
                    Grid.Column="0"
                    Text="Id"/>
-        <StackPanel Grid.Row="0"
-                   Grid.Column="1"
-                    Orientation="Horizontal">
-            <TextBox Text="{Binding Id, Mode=OneWay}"/>
-            <Button Content="Go to"
-                    Command="{Binding GoToCommand}"
-                    Margin="5,0,0,0"/>
-        </StackPanel>
-
-
-
-        
-
+        <TextBlock Grid.Row="0" 
+                   Grid.Column="1">          
+            <Hyperlink Command="{Binding GoToDataObjectCommand}" CommandParameter="{Binding Id}">
+                <Run Text="{Binding Id, Mode=OneWay}"/>
+            </Hyperlink>
+        </TextBlock>
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
                    Text="Display name"/>
@@ -71,9 +63,12 @@
         <TextBlock Grid.Row="4"
                    Grid.Column="0"
                    Text="ParentId"/>
-        <TextBox Grid.Row="4"
-                   Grid.Column="1"
-                   Text="{Binding ParentId, Mode=OneWay}"/>
+        <TextBlock Grid.Row="4"
+                   Grid.Column="1">          
+            <Hyperlink Command="{Binding GoToDataObjectCommand}" CommandParameter="{Binding ParentId}">
+                <Run Text="{Binding ParentId, Mode=OneWay}"/>
+            </Hyperlink>
+        </TextBlock>
         <TextBlock Grid.Row="5"
                    Grid.Column="0"
                    Text="CurrentUserId"/>
