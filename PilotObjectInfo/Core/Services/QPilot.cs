@@ -29,8 +29,23 @@ namespace PilotObjectInfo.Core.Services
             var SearchResults = await GI.SearchService.Search(builder).FirstAsync(x => x.Kind == SearchResultKind.Remote);
             return SearchResults.Result;
         }
+        internal HashSet<TypeModel> GetTypeAllModels()
+        {
+            IEnumerable<IType> types = GI.Repository.GetTypes();
+            ConcurrentDictionary<TypeModel, byte> data = new();
+            Parallel.ForEach(types, type =>
+            {
+                TypeModel tm = new()
+                {
+                    Name = type.Name,
+                    Title = type.Title
+                };
+                data.TryAdd(tm, 0);
+            });
+            return new HashSet<TypeModel>(data.Keys);
+        }
 
-        internal HashSet<AttributeModel> GetAllPilotAttributes()
+        internal HashSet<AttributeModel> GetAttributeAllModels()
         {
             ConcurrentDictionary<AttributeModel, byte> data = new();
             IEnumerable<IType> types = GI.Repository.GetTypes();
@@ -53,20 +68,22 @@ namespace PilotObjectInfo.Core.Services
             return new HashSet<AttributeModel>(data.Keys);
         }
 
-        internal HashSet<TypeModel> GetAllPilotTypes()
+        internal HashSet<UserStateModel> GetUserStateAllModels()
         {
-            IEnumerable<IType> types = GI.Repository.GetTypes();
-            ConcurrentDictionary<TypeModel, byte> data = new();
+            ConcurrentDictionary<UserStateModel, byte> data = new();
+            IEnumerable<IUserState> types = GI.Repository.GetUserStates();
             Parallel.ForEach(types, type =>
             {
-                TypeModel tm = new()
+                UserStateModel st = new()
                 {
+                    Id = type.Id,
                     Name = type.Name,
                     Title = type.Title
                 };
-                data.TryAdd(tm, 0);
+                data.TryAdd(st, 0);
             });
-            return new HashSet<TypeModel>(data.Keys);
+
+            return new HashSet<UserStateModel>(data.Keys);
         }
     }
 }

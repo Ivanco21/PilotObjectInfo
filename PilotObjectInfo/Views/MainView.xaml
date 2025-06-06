@@ -115,19 +115,19 @@
                             <ColumnDefinition Width="76*"/>
                         </Grid.ColumnDefinitions>
                         <TabControl Grid.ColumnSpan="2">
-                            <TabItem Header="People">
-                                <local:PeopleView DataContext="{Binding PeopleVm, Mode=OneWay}" />
-                            </TabItem>
-                            <TabItem Header="OrgUnits">
-                                <local:OrgUnitsView DataContext="{Binding OrgUnitsVm, Mode=OneWay}" />
-                            </TabItem>
                             <TabItem Header="Types">
                                 <local:TypesView DataContext="{Binding TypesVm, Mode=OneWay}" />
                             </TabItem>
                             <TabItem Header="UserStates">
                                 <local:UserStatesView DataContext="{Binding UserStatesVm, Mode=OneWay}" />
                             </TabItem>
-                            <TabItem Header="Analytics">
+                            <TabItem Header="People">
+                                <local:PeopleView DataContext="{Binding PeopleVm, Mode=OneWay}" />
+                            </TabItem>
+                            <TabItem Header="OrgUnits">
+                                <local:OrgUnitsView DataContext="{Binding OrgUnitsVm, Mode=OneWay}" />
+                            </TabItem>
+                            <TabItem Header="Exts analytics">
                                 <local:AnalyticsView DataContext="{Binding AnalyticsVm, Mode=OneWay }"/>
                             </TabItem>
                         </TabControl>

@@ -16,8 +16,9 @@ namespace PilotObjectInfo.ViewModels
         {
             _assemblyDescriptions = new ObservableCollection<AssemblyInfoModel>();
             QPilot qPilot = new();
-            pMapper.PilotTypes = qPilot.GetAllPilotTypes();
-            pMapper.PilotAttributes = qPilot.GetAllPilotAttributes();
+            pMapper.TypesPilot = qPilot.GetTypeAllModels();
+            pMapper.AttributesPilot = qPilot.GetAttributeAllModels();
+            pMapper.UserStatesPilot = qPilot.GetUserStateAllModels();
 
 
             #region Commands
@@ -73,8 +74,18 @@ namespace PilotObjectInfo.ViewModels
                 {
                     AttributeDescriptions = new ObservableCollection<AttributeModel>(_selectedAssembly.Attributes.OrderBy(a => a.Name));
                     TypeDescriptions = new ObservableCollection<TypeModel>(_selectedAssembly.Types.OrderBy(t => t.Name));
+                    UserStateDescriptions = new ObservableCollection<UserStateModel>(_selectedAssembly.UserStates.OrderBy(t => t.Name));
                 }
             }
+        }
+        #endregion
+
+        #region Описание типов assembly
+        private ObservableCollection<TypeModel> _typeDescriptions;
+        public ObservableCollection<TypeModel> TypeDescriptions
+        {
+            get => _typeDescriptions;
+            set => Set(ref _typeDescriptions, value);
         }
         #endregion
 
@@ -87,12 +98,12 @@ namespace PilotObjectInfo.ViewModels
         }
         #endregion
 
-        #region Описание типов assembly
-        private ObservableCollection<TypeModel> _typeDescriptions;
-        public ObservableCollection<TypeModel> TypeDescriptions
+        #region Описание состояний
+        private ObservableCollection<UserStateModel> _userStateDescriptions;
+        public ObservableCollection<UserStateModel> UserStateDescriptions
         {
-            get => _typeDescriptions;
-            set => Set(ref _typeDescriptions, value);
+            get => _userStateDescriptions;
+            set => Set(ref _userStateDescriptions, value);
         }
         #endregion
     }
