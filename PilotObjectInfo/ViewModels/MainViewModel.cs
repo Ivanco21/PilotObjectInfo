@@ -11,8 +11,6 @@ namespace PilotObjectInfo.ViewModels
     {
         private IDataObject _obj;
 
-        private RelayCommand _goToCommand;
-
         public MainViewModel(IDataObject obj, FileModifier fileModifier)
         {
             _obj = obj;
@@ -31,6 +29,7 @@ namespace PilotObjectInfo.ViewModels
             OrgUnitsVm = new OrgUnitsViewModel(GI.Repository.GetOrganisationUnits());
             TypesVm = new TypesViewModel(GI.Repository.GetTypes());
             UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
+            AnalyticsVm = new AnalyticsViewModel();
 
             GI.Repository.GetOrganisationUnits();
 
@@ -65,6 +64,7 @@ namespace PilotObjectInfo.ViewModels
         public UserStatesViewModel UserStatesVm { get; }
 
         public TypesViewModel TypesVm { get; }
+        public AnalyticsViewModel AnalyticsVm { get; }
 
 
         #region Команда Переход к объекту

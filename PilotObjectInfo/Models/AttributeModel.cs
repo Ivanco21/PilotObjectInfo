@@ -3,7 +3,7 @@ using Ascon.Pilot.SDK;
 
 namespace PilotObjectInfo.Models
 {
-    public class AttributeModel
+    public record AttributeModel
     {
         public AttributeModel()
         {

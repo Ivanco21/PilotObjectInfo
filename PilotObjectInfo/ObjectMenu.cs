@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.Composition;
-using System.Linq;
-using Ascon.Pilot.SDK;
+﻿using Ascon.Pilot.SDK;
 using Ascon.Pilot.SDK.Menu;
 using PilotObjectInfo.Core;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Text;
+using System.Windows.Media;
 
 namespace PilotObjectInfo
 {

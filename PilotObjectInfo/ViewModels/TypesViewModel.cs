@@ -89,7 +89,7 @@ namespace PilotObjectInfo.ViewModels
 
         private async Task OnGoToRandomTypeElementExecutedAsync(object obj)
         {
-            SearchService searchService = new();
+            QPilot searchService = new();
             int maxGuids = 100;
 
             if (obj is not IType type)
