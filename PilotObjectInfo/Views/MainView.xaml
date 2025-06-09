@@ -130,6 +130,9 @@
                             <TabItem Header="Exts analytics">
                                 <local:AnalyticsView DataContext="{Binding AnalyticsVm, Mode=OneWay }"/>
                             </TabItem>
+                            <TabItem Header="Code analytics">
+                                <local:CodeStatesView DataContext="{Binding CodeSearchVM, Mode=OneWay }"/>
+                            </TabItem>
                         </TabControl>
                     </Grid>
                 </Grid>
