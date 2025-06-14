@@ -119,6 +119,9 @@
                     <DataGridTextColumn Header="Type"
                                         Binding="{Binding Type}"
                                         Width="*"/>
+                    <DataGridTextColumn Header="Configuration2"
+                                    Width="*"
+                                    Binding="{Binding Configuration2}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
