@@ -3,10 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:PilotObjectInfo.Views"
-    mc:Ignorable="d"
-    Title="Pilot object Info"
-    d:DesignHeight="300" d:DesignWidth="300">
+    xmlns:local="clr-namespace:PilotObjectInfo.Views" 
+    xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels"
+    xmlns:converters="clr-namespace:PilotObjectInfo.ViewModels.Converters" xmlns:base="clr-namespace:PilotObjectInfo.ViewModels.Base"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        mc:Ignorable="d"
+        Title="{Binding Path=ApplicationVersion, StringFormat=Pilot object Info: v{0}}"
+        d:DesignHeight="300" d:DesignWidth="300">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="5" />
@@ -18,14 +21,19 @@
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="Margin" Value="5" />
         </Style>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
     <Grid Margin="5">
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
             <TabItem Header="Element Mode">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.7*"/>
-                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="0.7*" />
+                        <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -40,36 +48,36 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="29*" />
-                            <ColumnDefinition Width="19*"/>
-                            <ColumnDefinition Width="161*"/>
+                            <ColumnDefinition Width="19*" />
+                            <ColumnDefinition Width="161*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Id"/>
-                         <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Id" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
                             <Hyperlink Command="{Binding GoToDataObjectCommand}"
-                                CommandParameter="{Binding Id}">
+                                       CommandParameter="{Binding Id}">
                                 <Run Text="{Binding Id, Mode=OneWay}" />
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Display name"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Display name" />
                         <TextBox Grid.Row="1" Grid.Column="1"
                                  Text="{Binding DisplayName, Mode=OneWay}" Grid.ColumnSpan="3" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Created"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Created" />
                         <TextBox Grid.Row="2" Grid.Column="1"
-                                 Text="{Binding Created, Mode=OneWay}" Grid.ColumnSpan="3"/>
+                                 Text="{Binding Created, Mode=OneWay}" Grid.ColumnSpan="3" />
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="IsSecret" />
                         <TextBox Grid.Row="3" Grid.Column="1"
-                                 Text="{Binding IsSecret, Mode=OneWay}" Grid.ColumnSpan="3"/>
-                        <TextBlock Grid.Row="4" Grid.Column="0" Text="ParentId"/>
+                                 Text="{Binding IsSecret, Mode=OneWay}" Grid.ColumnSpan="3" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="ParentId" />
                         <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3">
                             <Hyperlink Command="{Binding GoToDataObjectCommand}"
-                                CommandParameter="{Binding ParentId}">
+                                       CommandParameter="{Binding ParentId}">
                                 <Run Text="{Binding ParentId, Mode=OneWay}" />
                             </Hyperlink>
                         </TextBlock>
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="CurrentUserId" />
                         <TextBox Grid.Row="5" Grid.Column="1"
-                                 Text="{Binding CurrentUserId, Mode=OneWay}" Grid.ColumnSpan="3"/>
-                        
+                                 Text="{Binding CurrentUserId, Mode=OneWay}" Grid.ColumnSpan="3" />
+
                         <TabControl Grid.Row="6" Grid.ColumnSpan="4" Margin="0,10,0,0">
                             <TabItem Header="Attributes">
                                 <local:AttributesView DataContext="{Binding AttributesVm, Mode=OneWay}" />
@@ -101,18 +109,18 @@
                         </TabControl>
                     </Grid>
                 </Grid>
-                
+
             </TabItem>
             <TabItem Header="Database Mode">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.7*"/>
-                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="71*"/>
-                            <ColumnDefinition Width="76*"/>
+                            <ColumnDefinition Width="71*" />
+                            <ColumnDefinition Width="76*" />
                         </Grid.ColumnDefinitions>
                         <TabControl Grid.ColumnSpan="2">
                             <TabItem Header="Types">
@@ -128,15 +136,18 @@
                                 <local:OrgUnitsView DataContext="{Binding OrgUnitsVm, Mode=OneWay}" />
                             </TabItem>
                             <TabItem Header="Exts analytics">
-                                <local:AnalyticsView DataContext="{Binding AnalyticsVm, Mode=OneWay }"/>
+                                <local:AnalyticsView DataContext="{Binding AnalyticsVm, Mode=OneWay }" />
                             </TabItem>
                             <TabItem Header="Code analytics">
-                                <local:CodeStatesView DataContext="{Binding CodeSearchVM, Mode=OneWay }"/>
+                                <local:CodeStatesView DataContext="{Binding CodeSearchVM, Mode=OneWay }" />
                             </TabItem>
                         </TabControl>
                     </Grid>
                 </Grid>
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="1">
+            <local:FooterView DataContext="{Binding FooterVM, Mode=OneWay }" />
+        </Grid>
     </Grid>
 </Window>

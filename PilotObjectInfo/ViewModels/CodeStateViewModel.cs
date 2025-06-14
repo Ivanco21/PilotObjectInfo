@@ -13,10 +13,12 @@ namespace PilotObjectInfo.ViewModels
 {
     internal class CodeStateViewModel : Base.ViewModel
     {
-        public CodeStateViewModel()
+        private MessageService _messageService;
+        public CodeStateViewModel(MessageService messageService)
         {
             CodeStates = new ObservableCollection<CodeStateModel>();
             IsInProgress = false;
+            this._messageService = messageService;
 
             #region Commands
             this.CodeSearchCommand = new AsyncRelayCommand(OnCodeSearchExecutedAsync, CanCodeSearchExecute);
@@ -101,6 +103,7 @@ namespace PilotObjectInfo.ViewModels
 
             string rawCSCode = parser.DecompileAssemblyToCSharp(pathToExt);
             Clipboard.SetText(rawCSCode);
+            _messageService.SendMessage("Copied to clipboard!");
         }
 
         private bool CanCodeCopyExecute(object obj)

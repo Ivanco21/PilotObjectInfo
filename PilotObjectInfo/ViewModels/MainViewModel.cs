@@ -1,6 +1,5 @@
 ﻿using Ascon.Pilot.SDK;
 using PilotObjectInfo.Core;
-using PilotObjectInfo.Core.Services;
 using PilotObjectInfo.ViewModels.Commands;
 using System;
 using System.Windows.Input;
@@ -10,10 +9,13 @@ namespace PilotObjectInfo.ViewModels
     class MainViewModel : Base.ViewModel
     {
         private IDataObject _obj;
+        private readonly MessageService _messageService;
 
         public MainViewModel(IDataObject obj, FileModifier fileModifier)
         {
             _obj = obj;
+            ApplicationVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            _messageService = new MessageService();
 
             AttributesVm = new AttributesViewModel(_obj);
             TypeVm = new TypeViewModel(_obj.Type);
@@ -30,7 +32,8 @@ namespace PilotObjectInfo.ViewModels
             TypesVm = new TypesViewModel(GI.Repository.GetTypes());
             UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
             AnalyticsVm = new AnalyticsViewModel();
-            CodeSearchVM = new CodeStateViewModel();
+            CodeSearchVM = new CodeStateViewModel(_messageService);
+            FooterVM = new FooterViewModel(_messageService);
 
             GI.Repository.GetOrganisationUnits();
 
@@ -67,6 +70,16 @@ namespace PilotObjectInfo.ViewModels
         public TypesViewModel TypesVm { get; }
         public AnalyticsViewModel AnalyticsVm { get; }
         public CodeStateViewModel CodeSearchVM { get; }
+        public FooterViewModel FooterVM { get; }
+
+        #region Версия приложения
+        private string _applicationVersion;
+        public string ApplicationVersion
+        {
+            get => _applicationVersion;
+            set => Set(ref _applicationVersion, value);
+        }
+        #endregion
 
 
         #region Команда Переход к объекту
