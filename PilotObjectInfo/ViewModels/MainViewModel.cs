@@ -30,7 +30,7 @@ namespace PilotObjectInfo.ViewModels
             TypesVm = new TypesViewModel(GI.Repository.GetTypes());
             UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
             AnalyticsVm = new AnalyticsViewModel();
-            CodeSearchVM = new CodeSearchViewModel();
+            CodeSearchVM = new CodeStateViewModel();
 
             GI.Repository.GetOrganisationUnits();
 
@@ -66,7 +66,7 @@ namespace PilotObjectInfo.ViewModels
 
         public TypesViewModel TypesVm { get; }
         public AnalyticsViewModel AnalyticsVm { get; }
-        public CodeSearchViewModel CodeSearchVM { get; }
+        public CodeStateViewModel CodeSearchVM { get; }
 
 
         #region Команда Переход к объекту

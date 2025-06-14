@@ -3,11 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
-             d:DataContext="{d:DesignInstance Type=viewmodels:CodeSearchViewModel}"
+             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels"
+             xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
+             xmlns:converters="clr-namespace:PilotObjectInfo.ViewModels.Converters" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:CodeStateViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+            <Grid x:Name="MainGrid">
         <Grid Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -44,22 +54,40 @@
                 </Button>
             </Grid>
             <Grid Grid.Row="2">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                              Visibility="{Binding IsInProgress, 
+                              Converter={StaticResource InverseBoolToVisibilityConverter}, 
+                              UpdateSourceTrigger=PropertyChanged}">
                     <ItemsControl x:Name="NotificationsList" Margin="10" ItemsSource="{Binding CodeStates}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border>
                                     <StackPanel>
-                                        <TextBlock
-                                                    FontSize="14"
-                                                    Text="{Binding Path=InternalName, StringFormat=Плагин: {0}}">
-                                        </TextBlock>
-                                        <TextBlock
-                                                    FontSize="14"
-                                                    Text="{Binding Path=Version, StringFormat= v{0}}">
-                                        </TextBlock>
-                                        <TextBlock Text="{Binding Product}" FontSize="14"/>
-
+                                        <StackPanel Grid.Column="0">
+                                            <TextBox Text="{Binding Path=InternalName, StringFormat=Плагин: {0}}" 
+                                                       FontSize="14" 
+                                                       FontWeight="Bold">
+                                            </TextBox>
+                                            <TextBox Text="{Binding Path=Version, StringFormat= v{0}}" 
+                                                       FontSize="14">
+                                            </TextBox>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="0.1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" 
+                                                           Text="{Binding Product}" 
+                                                           FontSize="14">
+                                                </TextBox>
+                                                <Button Grid.Column="1" 
+                                                        Content="Clip all ext code"
+                                                        Command="{Binding DataContext.CodeCopyCommand,  
+                                                        RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                        CommandParameter="{Binding Path}">
+                                                </Button>
+                                            </Grid>
+                                        </StackPanel>
                                         <ItemsControl ItemsSource="{Binding CodeParts}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -68,7 +96,9 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border BorderBrush="Gray" BorderThickness="1" Padding="5">
+                                                    <Border BorderBrush="Gray" 
+                                                            BorderThickness="1" 
+                                                            Padding="5">
                                                         <TextBlock Text="{Binding}"/>
                                                     </Border>
                                                 </DataTemplate>
@@ -80,6 +110,16 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
+                <Viewbox Width="150" Height="150" 
+                                     Visibility="{Binding IsInProgress, 
+                                    Converter={StaticResource BoolToVisibilityConverter}, 
+                                    UpdateSourceTrigger=PropertyChanged}">
+                    <customcontrols:LoadingAnimation Grid.Column="0"  
+                                             x:Name="LoadingAnimationControl"
+                                             HorizontalAlignment="Left" 
+                                             VerticalAlignment="Center">
+                    </customcontrols:LoadingAnimation>
+                </Viewbox>
             </Grid>
         </Grid>
     </Grid>

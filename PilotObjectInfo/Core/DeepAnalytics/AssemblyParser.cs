@@ -112,7 +112,7 @@ namespace PilotObjectInfo.Core.DeepAnalytics
         }
 
 
-        private string DecompileAssemblyToCSharp(string assemblyPath)
+        internal string DecompileAssemblyToCSharp(string assemblyPath)
         {
             var settings = new DecompilerSettings
             {
