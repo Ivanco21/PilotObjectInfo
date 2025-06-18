@@ -25,6 +25,21 @@
                         Content="Search all desktop extensions" 
                         Command="{Binding SearchAssemblyCommand}">
                 </Button>
+                <TextBox Grid.Column="2"
+                x:Name="SearchTextBox"
+                     Margin="2"
+                     Height="25" 
+                     Text="{Binding SearchOnAssemblyText, UpdateSourceTrigger=PropertyChanged}"
+                     BorderBrush="Black"
+                     BorderThickness="0.5"
+                     Background="White"
+                     Foreground="Black"
+                     IsReadOnly="False"
+                     VerticalContentAlignment="Center">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SearchOnAssemblyCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
