@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
-using PilotObjectInfo.Core.DeepAnalytics;
+﻿using PilotObjectInfo.Core.DeepAnalytics;
 using PilotObjectInfo.Core.Services;
 using PilotObjectInfo.Models;
 using PilotObjectInfo.ViewModels.Commands;
+using PilotObjectInfo.Views;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -15,6 +18,8 @@ namespace PilotObjectInfo.ViewModels
         public AnalyticsViewModel()
         {
             _assemblyDescriptions = new ObservableCollection<AssemblyInfoModel>();
+            AssemblyDescriptionsView = CollectionViewSource.GetDefaultView(AssemblyDescriptions);
+            AssemblyDescriptionsView.Filter = FilterAssemblys;
             QPilot qPilot = new();
             pMapper.TypesPilot = qPilot.GetTypeAllModels();
             pMapper.AttributesPilot = qPilot.GetAttributeAllModels();
@@ -23,6 +28,7 @@ namespace PilotObjectInfo.ViewModels
 
             #region Commands
             this.SearchAssemblyCommand = new RelayCommand(OnSearchAssemblyExecuted, CanSearchAssemblyExecute);
+            this.SearchOnAssemblyCommand = new RelayCommand(OnSearchOnAssemblyExecuted, CanSearchOnAssemblyExecute);
             #endregion
         }
 
@@ -46,6 +52,8 @@ namespace PilotObjectInfo.ViewModels
             }
 
             AssemblyDescriptions = new ObservableCollection<AssemblyInfoModel>(infos);
+            AssemblyDescriptionsView = CollectionViewSource.GetDefaultView(AssemblyDescriptions);
+            AssemblyDescriptionsView.Filter = FilterAssemblys;
         }
         private bool CanSearchAssemblyExecute(object obj)
         {
@@ -54,11 +62,65 @@ namespace PilotObjectInfo.ViewModels
         #endregion
 
         #region Assembly description
+        private ICollectionView _assemblyDescriptionsView;
+        public ICollectionView AssemblyDescriptionsView
+        {
+            get => _assemblyDescriptionsView;
+            set => Set(ref _assemblyDescriptionsView, value);
+        }
+
         private ObservableCollection<AssemblyInfoModel> _assemblyDescriptions;
         public ObservableCollection<AssemblyInfoModel> AssemblyDescriptions
         {
             get => _assemblyDescriptions;
             set => Set(ref _assemblyDescriptions, value);
+        }
+        #endregion
+
+        #region Поиск по assembly - значение
+        private string _searchOnAssemblyText;
+        public string SearchOnAssemblyText
+        {
+            get => _searchOnAssemblyText;
+            set
+            {
+                Set(ref _searchOnAssemblyText, value);
+                AssemblyDescriptionsView.Refresh();
+            }
+        }
+        #endregion
+
+        #region Команда для поиска
+        public ICommand SearchOnAssemblyCommand { get; set; }
+        private void OnSearchOnAssemblyExecuted(object obj)
+        {
+            AssemblyDescriptionsView.Refresh();
+        }
+        private bool CanSearchOnAssemblyExecute(object obj)
+        {
+            return true;
+        }
+        #endregion
+
+        #region Поиск - фильтр
+        private bool FilterAssemblys(object obj)
+        {
+            if (string.IsNullOrWhiteSpace(SearchOnAssemblyText))
+                return true;
+
+            string search = SearchOnAssemblyText.Trim().ToLower();
+            if (obj is AssemblyInfoModel type)
+            {
+                return type.Types.Any(t => string.Equals(t.Name.ToLower(), search) || string.Equals(t.Title.ToLower(), search)) ||
+                       type.Attributes.Any(t => string.Equals(t.Name.ToLower(), search) || string.Equals(t.Title.ToLower(), search)) ||
+                       type.UserStates.Any(t => string.Equals(t.Name.ToLower(), search) ||
+                                           string.Equals(t.Title.ToLower(), search) ||
+                                            string.Equals(t.Id.ToString(), search));
+
+
+            }
+
+            return false;
         }
         #endregion
 
