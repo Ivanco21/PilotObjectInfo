@@ -33,18 +33,13 @@
     <PackageReference Include="ICSharpCode.Decompiler" Version="9.1.0.7988" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <PackageReference Include="SharpVectors" Version="1.8.1" />
     <PackageReference Include="System.ComponentModel.Composition" Version="9.0.3" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Reactive" Version="4.1.6" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
   </ItemGroup>
-	<ItemGroup>
-	  <Reference Include="Ascon.Pilot.VisualElements">
-	    <HintPath>C:\Program Files\ASCON\Pilot-BIM\Ascon.Pilot.VisualElements.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	</ItemGroup>
 	<PropertyGroup>
 		<DebugOutputPath>$(OutputPath)$(AssemblyName)</DebugOutputPath>
 		<UserDirectoryPath>$(UserProfile)\AppData\Local\ASCON\Pilot-BIM\Development\$(AssemblyName)</UserDirectoryPath>

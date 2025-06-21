@@ -1,21 +1,17 @@
-﻿using Ascon.Pilot.VisualElements.Tools.DragAndDrop;
-using ICSharpCode.Decompiler;
+﻿using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.Disassembler;
 using ICSharpCode.Decompiler.Metadata;
-using ICSharpCode.Decompiler.TypeSystem;
 using PilotObjectInfo.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration.Assemblies;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Shapes;
 
 namespace PilotObjectInfo.Core.DeepAnalytics
 {
