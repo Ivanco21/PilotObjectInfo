@@ -3,33 +3,66 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PilotObjectInfo.Views"
+             xmlns:local="clr-namespace:PilotObjectInfo.Views" 
+             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:PeopleViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding People}"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  ClipboardCopyMode="IncludeHeader"
-                  >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" 
-                                    Binding="{Binding Id, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Login"
-                                    Binding="{Binding Login, Mode=OneWay}"/>
-                <DataGridTextColumn Header="DisplayName"
-                                    Binding="{Binding DisplayName, Mode=OneWay}"/>
-                <DataGridTextColumn Header="MainPosition"
-                                    Binding="{Binding MainPosition.Position, Mode=OneWay}"/>
-                <DataGridTextColumn Header="ActualName"
-                                    Binding="{Binding ActualName, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Sid"
-                                    Binding="{Binding Sid, Mode=OneWay}"/>
-                <DataGridTextColumn Header="IsDeleted"
-                                    Binding="{Binding IsDeleted, Mode=OneWay}"/>
-                <DataGridTextColumn Header="IsAdmin"
-                                    Binding="{Binding IsAdmin, Mode=OneWay}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="15*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                Text="Search:"
+                Foreground="Black"
+                VerticalAlignment="Center">
+            </TextBlock>
+            <TextBox Grid.Column="1"
+                x:Name="SearchTextBox"
+                     Margin="2"
+                     Height="25" 
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     BorderBrush="Black"
+                     BorderThickness="0.5"
+                     Background="White"
+                     Foreground="Black"
+                     IsReadOnly="False"
+                     VerticalContentAlignment="Center">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="1">
+            <DataGrid ItemsSource="{Binding People}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      ClipboardCopyMode="IncludeHeader">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" 
+                            Binding="{Binding Id, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Login"
+                            Binding="{Binding Login, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="DisplayName"
+                            Binding="{Binding DisplayName, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="MainPosition"
+                            Binding="{Binding MainPosition.Position, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="ActualName"
+                            Binding="{Binding ActualName, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Sid"
+                            Binding="{Binding Sid, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="IsDeleted"
+                            Binding="{Binding IsDeleted, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="IsAdmin"
+                            Binding="{Binding IsAdmin, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </UserControl>
