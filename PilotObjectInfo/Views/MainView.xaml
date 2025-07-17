@@ -5,24 +5,35 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PilotObjectInfo.Views" 
     xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels"
-    xmlns:converters="clr-namespace:PilotObjectInfo.ViewModels.Converters" xmlns:base="clr-namespace:PilotObjectInfo.ViewModels.Base"
-        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
-        mc:Ignorable="d"
-        Title="{Binding Path=ApplicationVersion, StringFormat=Pilot object Info: v{0}}"
-        d:DesignHeight="300" d:DesignWidth="300">
+    xmlns:converters="clr-namespace:PilotObjectInfo.ViewModels.Converters" 
+    xmlns:base="clr-namespace:PilotObjectInfo.ViewModels.Base"
+    xmlns:control="clr-namespace:Ascon.Pilot.Theme.Controls;assembly=Ascon.Pilot.Theme"
+    xmlns:tools="clr-namespace:Ascon.Pilot.Theme.Tools;assembly=Ascon.Pilot.Theme" 
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+    mc:Ignorable="d"
+    Background="{DynamicResource NormalBackground}"
+    Title="{Binding Path=ApplicationVersion, StringFormat=Pilot object Info: v{0}}"
+    d:DesignHeight="300" d:DesignWidth="300">
     <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="5" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="IsReadOnly" Value="True" />
-            <Setter Property="TextWrapping" Value="Wrap" />
-            <Setter Property="Margin" Value="5" />
-        </Style>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <tools:SharedResourceDictionary Source="/Ascon.Pilot.Theme;component/Themes/StandardControls.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="{DynamicResource NormalBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource NormalForeground}"/>
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
     </Window.Resources>
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="30*" />

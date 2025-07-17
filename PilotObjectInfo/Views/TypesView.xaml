@@ -28,7 +28,6 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                 Text="Search:"
-                Foreground="Black"
                 VerticalAlignment="Center">
             </TextBlock>
             <TextBox Grid.Column="1"
