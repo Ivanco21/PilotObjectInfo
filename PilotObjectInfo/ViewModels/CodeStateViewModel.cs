@@ -1,13 +1,14 @@
-﻿using System;
+﻿using PilotObjectInfo.Core.DeepAnalytics;
+using PilotObjectInfo.Models;
+using PilotObjectInfo.ViewModels.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using PilotObjectInfo.Core.DeepAnalytics;
-using PilotObjectInfo.Models;
-using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -62,19 +63,28 @@ namespace PilotObjectInfo.ViewModels
 
             AssemblyParser parser = new();
             List<string> paths = parser.GetLoadedDllPaths();
-            List<Task<CodeStateModel>> loadTasks = new();
-            for (var i = 0; i < paths.Count; i++)
+            var loadTasks = new List<Task<CodeStateModel>>(paths.Count);
+            var throttler = new SemaphoreSlim(initialCount: Environment.ProcessorCount * 2);
+
+            foreach (string pth in paths)
             {
-                string pth = paths[i];
+                await throttler.WaitAsync();
                 loadTasks.Add(Task.Run(() =>
                 {
-                    AssemblyParser pr = new();
-                    CodeStateModel codeState = pr.GetCodeState(pth, SearchTerm);
-                    return codeState;
+                    try
+                    {
+                        AssemblyParser pr = new();
+                        return pr.GetCodeState(pth, SearchTerm);
+                    }
+                    finally
+                    {
+                        throttler.Release();
+                    }
                 }));
             }
 
             CodeStateModel[] codeStates = await Task.WhenAll(loadTasks);
+
             List<CodeStateModel> relevantCodeStates = codeStates.Where(st => st.CodeParts.Count > 0).ToList();
 
             CodeStates = new ObservableCollection<CodeStateModel>(relevantCodeStates);
