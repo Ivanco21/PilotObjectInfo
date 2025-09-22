@@ -93,11 +93,11 @@
                             <TabItem Header="Attributes">
                                 <local:AttributesView DataContext="{Binding AttributesVm, Mode=OneWay}" />
                             </TabItem>
-                            <TabItem Header="Children">
-                                <local:ChildrenView DataContext="{Binding ChildrenVm, Mode=OneWay}" />
-                            </TabItem>
                             <TabItem Header="Type">
                                 <local:TypeView DataContext="{Binding TypeVm, Mode=OneWay}" />
+                            </TabItem>
+                            <TabItem Header="Children">
+                                <local:ChildrenView DataContext="{Binding ChildrenVm, Mode=OneWay}" />
                             </TabItem>
                             <TabItem Header="Creator">
                                 <local:CreatorView DataContext="{Binding CreatorVm, Mode=OneWay}" />
