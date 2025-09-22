@@ -1,10 +1,10 @@
 ﻿using Ascon.Pilot.SDK;
-using PilotObjectInfo.ViewModels.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
+using PilotObjectInfo.ViewModels.Commands;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -21,7 +21,7 @@ namespace PilotObjectInfo.ViewModels
 
        public ObservableCollection<IPerson> People { get; }
 
-        #region Поиск -View
+        #region Поиск - View
         private ICollectionView _peopleView;
         public ICollectionView PeopleView
         {
@@ -32,13 +32,13 @@ namespace PilotObjectInfo.ViewModels
 
 
         #region Поиск - значение
-        private string _searchText;
-        public string SearchText
+        private string _searchTerm;
+        public string SearchTerm
         {
-            get => _searchText;
+            get => _searchTerm;
             set
             {
-                Set(ref _searchText, value);
+                Set(ref _searchTerm, value);
                 PeopleView.Refresh();
             }
         }
@@ -59,10 +59,10 @@ namespace PilotObjectInfo.ViewModels
         #region Поиск - фильтр
         private bool FilterPeople(object obj)
         {
-            if (string.IsNullOrWhiteSpace(SearchText))
+            if (string.IsNullOrWhiteSpace(SearchTerm))
                 return true;
 
-            string search = SearchText.Trim().ToLower();
+            string search = SearchTerm.Trim().ToLower();
             if (obj is IPerson type)
             {
                 return type.Id.ToString() == search ||

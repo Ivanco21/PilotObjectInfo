@@ -42,10 +42,10 @@ namespace PilotObjectInfo.ViewModels
         #region Поиск - фильтр
         private bool FilterTypes(object obj)
         {
-            if (string.IsNullOrWhiteSpace(SearchText))
+            if (string.IsNullOrWhiteSpace(SearchTerm))
                 return true;
 
-            string search = SearchText.Trim().ToLower();
+            string search = SearchTerm.Trim().ToLower();
             if (obj is IType type)
             {
                 return type.Name.ToLower().Contains(search) || 
@@ -59,14 +59,15 @@ namespace PilotObjectInfo.ViewModels
         }
         #endregion
 
-        #region Поиск - значение
-        private string _searchText;
-        public string SearchText
+
+        #region Текст поиска
+        private string _searchTerm;
+        public string SearchTerm
         {
-            get => _searchText;
+            get => _searchTerm;
             set
             {
-                Set(ref _searchText, value);
+                Set(ref _searchTerm, value);
                 TypesView.Refresh();
             }
         }

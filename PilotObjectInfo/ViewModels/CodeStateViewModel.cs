@@ -24,7 +24,7 @@ namespace PilotObjectInfo.ViewModels
             this._messageService = messageService;
 
             #region Commands
-            this.CodeSearchCommand = new AsyncRelayCommand(OnCodeSearchExecutedAsync, CanCodeSearchExecute);
+            this.SearchCommand = new AsyncRelayCommand(OnSearchExecutedAsync, CanSearchExecute);
             this.CodeCopyCommand = new RelayCommand(OnCodeCopyExecuted, CanCodeCopyExecute);
             this.OpenExtFolderCommand = new RelayCommand(OnOpenExtFolderExecuted, CanOpenExtFolderExecute);
             #endregion
@@ -59,8 +59,8 @@ namespace PilotObjectInfo.ViewModels
         #endregion
 
         #region Команда для поиска
-        public ICommand CodeSearchCommand { get; set; }
-        private async Task OnCodeSearchExecutedAsync(object obj)
+        public ICommand SearchCommand { get; set; }
+        private async Task OnSearchExecutedAsync(object obj)
         {
             IsInProgress = true;
 
@@ -95,7 +95,7 @@ namespace PilotObjectInfo.ViewModels
             IsInProgress = false;
         }
 
-        private bool CanCodeSearchExecute(object obj)
+        private bool CanSearchExecute(object obj)
         {
             return !string.IsNullOrEmpty(SearchTerm) && SearchTerm.Trim().Length > 0 && !IsInProgress;
         }

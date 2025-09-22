@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
              xmlns:local="clr-namespace:PilotObjectInfo.Views" 
              xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
              d:DataContext="{d:DesignInstance Type=viewmodels:AnalyticsViewModel}"
@@ -21,26 +22,15 @@
                     <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
+				<Button Grid.Column="0"
                         Content="Search all desktop extensions" 
                         Command="{Binding SearchAssemblyCommand}">
-                </Button>
-                <TextBox Grid.Column="2"
-                x:Name="SearchTextBox"
-                     Margin="2"
-                     Height="25" 
-                     Text="{Binding SearchOnAssemblyText, UpdateSourceTrigger=PropertyChanged}"
-                     BorderBrush="Black"
-                     BorderThickness="0.5"
-                     Background="White"
-                     Foreground="Black"
-                     IsReadOnly="False"
-                     VerticalContentAlignment="Center">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding SearchOnAssemblyCommand}"/>
-                    </TextBox.InputBindings>
-                </TextBox>
-            </Grid>
+				</Button>
+				<Grid Grid.Column="2">
+					<customcontrols:SearchPanel>
+					</customcontrols:SearchPanel>
+				</Grid>
+			</Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"/>

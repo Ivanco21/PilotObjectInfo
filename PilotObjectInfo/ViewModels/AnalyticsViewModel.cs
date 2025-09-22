@@ -28,7 +28,7 @@ namespace PilotObjectInfo.ViewModels
 
             #region Commands
             this.SearchAssemblyCommand = new RelayCommand(OnSearchAssemblyExecuted, CanSearchAssemblyExecute);
-            this.SearchOnAssemblyCommand = new RelayCommand(OnSearchOnAssemblyExecuted, CanSearchOnAssemblyExecute);
+            this.SearchCommand = new RelayCommand(OnSearchExecuted, CanSearchExecute);
             #endregion
         }
 
@@ -78,25 +78,25 @@ namespace PilotObjectInfo.ViewModels
         #endregion
 
         #region Поиск по assembly - значение
-        private string _searchOnAssemblyText;
-        public string SearchOnAssemblyText
+        private string _searchTerm;
+        public string SearchTerm
         {
-            get => _searchOnAssemblyText;
+            get => _searchTerm;
             set
             {
-                Set(ref _searchOnAssemblyText, value);
+                Set(ref _searchTerm, value);
                 AssemblyDescriptionsView.Refresh();
             }
         }
         #endregion
 
         #region Команда для поиска
-        public ICommand SearchOnAssemblyCommand { get; set; }
-        private void OnSearchOnAssemblyExecuted(object obj)
+        public ICommand SearchCommand { get; set; }
+        private void OnSearchExecuted(object obj)
         {
             AssemblyDescriptionsView.Refresh();
         }
-        private bool CanSearchOnAssemblyExecute(object obj)
+        private bool CanSearchExecute(object obj)
         {
             return true;
         }
@@ -105,10 +105,10 @@ namespace PilotObjectInfo.ViewModels
         #region Поиск - фильтр
         private bool FilterAssemblys(object obj)
         {
-            if (string.IsNullOrWhiteSpace(SearchOnAssemblyText))
+            if (string.IsNullOrWhiteSpace(SearchTerm))
                 return true;
 
-            string search = SearchOnAssemblyText.Trim().ToLower();
+            string search = SearchTerm.Trim().ToLower();
             if (obj is AssemblyInfoModel type)
             {
                 return type.Types.Any(t => string.Equals(t.Name.ToLower(), search) || 

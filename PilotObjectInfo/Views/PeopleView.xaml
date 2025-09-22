@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PilotObjectInfo.Views" 
-             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
+             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels"
+			 xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
              d:DataContext="{d:DesignInstance Type=viewmodels:PeopleViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,32 +14,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="15*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"
-                Text="Search:"
-                VerticalAlignment="Center">
-            </TextBlock>
-            <TextBox Grid.Column="1"
-                x:Name="SearchTextBox"
-                     Margin="2"
-                     Height="25" 
-                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                     BorderBrush="Black"
-                     BorderThickness="0.5"
-                     Background="White"
-                     Foreground="Black"
-                     IsReadOnly="False"
-                     VerticalContentAlignment="Center">
-                <TextBox.InputBindings>
-                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
-                </TextBox.InputBindings>
-            </TextBox>
-        </Grid>
-        <Grid Grid.Row="1">
+		<Grid Grid.Row="0">
+			<customcontrols:SearchPanel >
+			</customcontrols:SearchPanel>
+		</Grid>
+		<Grid Grid.Row="1">
             <DataGrid ItemsSource="{Binding People}"
                       AutoGenerateColumns="False"
                       IsReadOnly="True"

@@ -2,17 +2,27 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
              xmlns:local="clr-namespace:PilotObjectInfo.Views" 
              xmlns:converters="clr-namespace:PilotObjectInfo.ViewModels.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+	
     <UserControl.Resources>
         <converters:ByteImageConverter x:Key ="ByteImageConverter"/>
     </UserControl.Resources>
 
-    <Grid>
-        <DataGrid ItemsSource="{Binding States}"
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<customcontrols:SearchPanel >
+			</customcontrols:SearchPanel>
+		</Grid>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding States}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                    ClipboardCopyMode="IncludeHeader">

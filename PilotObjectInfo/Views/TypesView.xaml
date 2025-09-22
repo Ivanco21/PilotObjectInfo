@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PilotObjectInfo.Views"
+			 xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
              xmlns:converters="clr-namespace:PilotObjectInfo.ViewModels.Converters"
              xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -20,38 +21,22 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid  Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="12*"/>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="5*"/>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"
-                Text="Search:"
-                VerticalAlignment="Center">
-            </TextBlock>
-            <TextBox Grid.Column="1"
-                x:Name="SearchTextBox"
-                     Margin="2"
-                     Height="25" 
-                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                     BorderBrush="Black"
-                     BorderThickness="0.5"
-                     Background="White"
-                     Foreground="Black"
-                     IsReadOnly="False"
-                     VerticalContentAlignment="Center">
-                <TextBox.InputBindings>
-                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
-                </TextBox.InputBindings>
-            </TextBox>
-            <Button Grid.Column="2" 
+			<Grid Grid.Column="0">
+				<customcontrols:SearchPanel >
+				</customcontrols:SearchPanel>
+			</Grid>
+			<Button Grid.Column="1" 
                     Content="to DTO" 
                     Margin="2"
                     Command="{Binding GenerateFullDtoCommand}"
                     CommandParameter="{Binding SelectedType}"/>
             
-            <Button Grid.Column="3" 
+            <Button Grid.Column="2" 
                     Content="Show random element" 
                     Margin="2"
                     Command="{Binding GoToRandomTypeElementCommand}"
