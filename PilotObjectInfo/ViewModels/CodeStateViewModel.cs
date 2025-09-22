@@ -4,6 +4,8 @@ using PilotObjectInfo.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +26,7 @@ namespace PilotObjectInfo.ViewModels
             #region Commands
             this.CodeSearchCommand = new AsyncRelayCommand(OnCodeSearchExecutedAsync, CanCodeSearchExecute);
             this.CodeCopyCommand = new RelayCommand(OnCodeCopyExecuted, CanCodeCopyExecute);
+            this.OpenExtFolderCommand = new RelayCommand(OnOpenExtFolderExecuted, CanOpenExtFolderExecute);
             #endregion
         }
 
@@ -117,6 +120,21 @@ namespace PilotObjectInfo.ViewModels
         }
 
         private bool CanCodeCopyExecute(object obj)
+        {
+            return true;
+        }
+        #endregion
+
+        #region Команда открытия папки с Ext
+        public ICommand OpenExtFolderCommand { get; set; }
+        private void OnOpenExtFolderExecuted(object obj)
+        {
+            string pathToExt = (string)obj;
+            string dirPath = Path.GetDirectoryName(pathToExt);
+            Process.Start("explorer.exe", dirPath);
+        }
+
+        private bool CanOpenExtFolderExecute(object obj)
         {
             return true;
         }
