@@ -26,6 +26,7 @@ namespace PilotObjectInfo.Core.Services
             var builder = GI.SearchService.GetObjectQueryBuilder();
             builder.Must(ObjectFields.TypeId.BeAnyOf(types));
             builder.MaxResults(maxResults);
+            builder.Must(ObjectFields.ObjectState.Be(ObjectState.Alive));
             var SearchResults = await GI.SearchService.Search(builder).FirstAsync(x => x.Kind == SearchResultKind.Remote);
             return SearchResults.Result;
         }

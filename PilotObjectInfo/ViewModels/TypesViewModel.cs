@@ -90,31 +90,43 @@ namespace PilotObjectInfo.ViewModels
         private async Task OnGoToRandomTypeElementExecutedAsync(object obj)
         {
             QPilot searchService = new();
-            int maxGuids = 100;
 
             if (obj is not IType type)
                 return;
             
-            IEnumerable<Guid> guids = await searchService.SearchObjectsByTypesAsync(maxGuids, type.Id);
+            IEnumerable<Guid> guids = await searchService.SearchObjectsByTypesAsync(int.MaxValue, type.Id);
+            IEnumerable<Guid> validGuids = guids.Where(g => g != Guid.Empty);
             if (!guids.Any())
             {
                 return;
             }
 
-            Random seededRandom = new();
-            int rnd = seededRandom.Next(guids.Count() - 1);
-            Guid rndGuid = guids.ElementAt(rnd);
-            if (rndGuid != Guid.Empty)
+            bool isElementFound = false;
+            int maxSearchCount = 100;//попыток загрузки
+            int iSearch = 0;
+
+            while(!isElementFound && iSearch < maxSearchCount)
             {
+                Random seededRandom = new();
+                int rnd = seededRandom.Next(validGuids.Count() - 1);
+                Guid rndGuid = guids.ElementAt(rnd);
                 try
                 {
                     GI.TabServiceProvider.ShowElement(rndGuid, true);
+                    isElementFound = true;
                 }
                 catch (Exception)
                 {
-                    throw;
+
                 }
+                iSearch++;
             }
+
+            if(!isElementFound)
+            {
+                throw new Exception($"Не удалось найти элемент типа - {type.Name} за {maxSearchCount} итераций!");
+            }
+
         }
 
         private bool CanGoToRandomTypeElementExecute(object obj)
