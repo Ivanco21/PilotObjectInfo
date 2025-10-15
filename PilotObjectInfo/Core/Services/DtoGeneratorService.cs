@@ -17,7 +17,9 @@ namespace PilotObjectInfo.Core.Services
             sb.AppendLine($"    /// <summary>");
             sb.AppendLine($"    /// {type.Title}");
             sb.AppendLine($"    /// </summary>");
-            sb.AppendLine($"    internal const string TYPE_NAME = \"{type.Name}\";");
+            sb.AppendLine($"    internal const string NAME = \"{type.Name}\";");
+            sb.AppendLine();
+            sb.AppendLine($"    internal const string TITLE = \"{type.Title}\";");
             sb.AppendLine();
             sb.AppendLine($"    internal {dName}() {{ }}");
             sb.AppendLine();
