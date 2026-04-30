@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System;
 using PilotObjectInfo.Core;
 using System.Windows;
+using PilotObjectInfo.Settings;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -95,7 +96,7 @@ namespace PilotObjectInfo.ViewModels
             if (obj is not IType type)
                 return;
             
-            IEnumerable<Guid> guids = await searchService.SearchObjectsByTypesAsync(int.MaxValue, type.Id);
+            IEnumerable<Guid> guids = await searchService.SearchObjectsByTypesAsync(QSettings.MAX_Q_ELEMENTS, type.Id);
             IEnumerable<Guid> validGuids = guids.Where(g => g != Guid.Empty);
             if (!guids.Any())
             {
