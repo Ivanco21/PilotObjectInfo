@@ -103,9 +103,16 @@
                     <DataGridTextColumn Header="Type"
                                         Binding="{Binding Type}"
                                         Width="*"/>
-                    <DataGridTextColumn Header="Configuration2"
-                                    Width="*"
-                                    Binding="{Binding Configuration2}"/>
+                    <DataGridTemplateColumn Header="Configuration2" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Configuration2}"
+                                           TextWrapping="Wrap"
+                                           LineHeight="16"
+                                           MaxHeight="48"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
