@@ -1,6 +1,7 @@
 ﻿using Ascon.Pilot.SDK;
 using Ascon.Pilot.SDK.Menu;
 using PilotObjectInfo.Core;
+using PilotObjectInfo.Resources;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
@@ -117,7 +118,9 @@ namespace PilotObjectInfo
 
         private void AddMenuItem(IMenuBuilder builder)
         {
-            builder.AddItem("objectInfo", 0).WithHeader("Информация об объекте");
+            builder.AddItem("objectInfo", 0)
+                .WithIcon(MenuIcons.ObjectInfoIcon)
+                .WithHeader("Информация об объекте");
         }
     }
 }
