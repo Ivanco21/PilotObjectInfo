@@ -39,6 +39,7 @@ namespace PilotObjectInfo.ViewModels
 
             #region Commands
             this.GoToDataObjectCommand = new RelayCommand(OnGoToDataObjectExecuted, CanGoToDataObjectExecute);
+            this.CopyIdCommand = new RelayCommand(OnCopyIdExecuted);
             #endregion
         }
 
@@ -92,6 +93,15 @@ namespace PilotObjectInfo.ViewModels
         private bool CanGoToDataObjectExecute(object obj)
         {
             return obj != null && obj is Guid;
+        }
+        #endregion
+
+        #region Команда Копировать Id
+        public ICommand CopyIdCommand { get; set; }
+        private void OnCopyIdExecuted(object obj)
+        {
+            var text = obj?.ToString() ?? Id.ToString();
+            System.Windows.Clipboard.SetText(text);
         }
         #endregion
     }
