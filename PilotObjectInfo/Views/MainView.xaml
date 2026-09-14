@@ -167,11 +167,30 @@
                             <TabItem Header="OrgUnits">
                                 <local:OrgUnitsView DataContext="{Binding OrgUnitsVm, Mode=OneWay}" />
                             </TabItem>
-                            <TabItem Header="Exts analytics">
-                                <local:AnalyticsView DataContext="{Binding AnalyticsVm, Mode=OneWay }" />
+                        </TabControl>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Develop Mode">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="20*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="71*" />
+                            <ColumnDefinition Width="76*" />
+                        </Grid.ColumnDefinitions>
+                        <TabControl Grid.ColumnSpan="2">
+                            <TabItem Header="Meta code generator">
+                                <local:MetaCodeGeneratorView DataContext="{Binding MetaCodeGeneratorVm, Mode=OneWay }" />
                             </TabItem>
                             <TabItem Header="Code analytics">
                                 <local:CodeStatesView DataContext="{Binding CodeSearchVM, Mode=OneWay }" />
+                            </TabItem>
+                            <TabItem Header="Exts analytics">
+                                <local:AnalyticsView DataContext="{Binding AnalyticsVm, Mode=OneWay }" />
                             </TabItem>
                         </TabControl>
                     </Grid>

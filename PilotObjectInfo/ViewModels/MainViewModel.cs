@@ -33,6 +33,7 @@ namespace PilotObjectInfo.ViewModels
             UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
             AnalyticsVm = new AnalyticsViewModel();
             CodeSearchVM = new CodeStateViewModel(_messageService);
+            MetaCodeGeneratorVm = new MetaCodeGeneratorViewModel();
             FooterVM = new FooterViewModel(_messageService);
 
             GI.Repository.GetOrganisationUnits();
@@ -71,6 +72,7 @@ namespace PilotObjectInfo.ViewModels
         public TypesViewModel TypesVm { get; }
         public AnalyticsViewModel AnalyticsVm { get; }
         public CodeStateViewModel CodeSearchVM { get; }
+        public MetaCodeGeneratorViewModel MetaCodeGeneratorVm { get; }
         public FooterViewModel FooterVM { get; }
 
         #region Версия приложения
