@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System;
 using PilotObjectInfo.Core;
 using System.Windows;
+using PilotObjectInfo.Settings;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -42,10 +43,10 @@ namespace PilotObjectInfo.ViewModels
         #region Поиск - фильтр
         private bool FilterTypes(object obj)
         {
-            if (string.IsNullOrWhiteSpace(SearchText))
+            if (string.IsNullOrWhiteSpace(SearchTerm))
                 return true;
 
-            string search = SearchText.Trim().ToLower();
+            string search = SearchTerm.Trim().ToLower();
             if (obj is IType type)
             {
                 return type.Name.ToLower().Contains(search) || 
@@ -59,14 +60,15 @@ namespace PilotObjectInfo.ViewModels
         }
         #endregion
 
-        #region Поиск - значение
-        private string _searchText;
-        public string SearchText
+
+        #region Текст поиска
+        private string _searchTerm;
+        public string SearchTerm
         {
-            get => _searchText;
+            get => _searchTerm;
             set
             {
-                Set(ref _searchText, value);
+                Set(ref _searchTerm, value);
                 TypesView.Refresh();
             }
         }
@@ -89,32 +91,44 @@ namespace PilotObjectInfo.ViewModels
 
         private async Task OnGoToRandomTypeElementExecutedAsync(object obj)
         {
-            SearchService searchService = new();
-            int maxGuids = 100;
+            QPilot searchService = new();
 
             if (obj is not IType type)
                 return;
             
-            IEnumerable<Guid> guids = await searchService.SearchObjectsByTypesAsync(maxGuids, type.Id);
+            IEnumerable<Guid> guids = await searchService.SearchObjectsByTypesAsync(QSettings.MAX_Q_ELEMENTS, type.Id);
+            IEnumerable<Guid> validGuids = guids.Where(g => g != Guid.Empty);
             if (!guids.Any())
             {
                 return;
             }
 
-            Random seededRandom = new();
-            int rnd = seededRandom.Next(guids.Count() - 1);
-            Guid rndGuid = guids.ElementAt(rnd);
-            if (rndGuid != Guid.Empty)
+            bool isElementFound = false;
+            int maxSearchCount = 100;//попыток загрузки
+            int iSearch = 0;
+
+            while(!isElementFound && iSearch < maxSearchCount)
             {
+                Random seededRandom = new();
+                int rnd = seededRandom.Next(validGuids.Count() - 1);
+                Guid rndGuid = guids.ElementAt(rnd);
                 try
                 {
                     GI.TabServiceProvider.ShowElement(rndGuid, true);
+                    isElementFound = true;
                 }
                 catch (Exception)
                 {
-                    throw;
+
                 }
+                iSearch++;
             }
+
+            if(!isElementFound)
+            {
+                throw new Exception($"Не удалось найти элемент типа - {type.Name} за {maxSearchCount} итераций!");
+            }
+
         }
 
         private bool CanGoToRandomTypeElementExecute(object obj)

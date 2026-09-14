@@ -1,6 +1,5 @@
 ﻿using Ascon.Pilot.SDK;
 using PilotObjectInfo.Core;
-using PilotObjectInfo.Core.Services;
 using PilotObjectInfo.ViewModels.Commands;
 using System;
 using System.Windows.Input;
@@ -10,12 +9,13 @@ namespace PilotObjectInfo.ViewModels
     class MainViewModel : Base.ViewModel
     {
         private IDataObject _obj;
-
-        private RelayCommand _goToCommand;
+        private readonly MessageService _messageService;
 
         public MainViewModel(IDataObject obj, FileModifier fileModifier)
         {
             _obj = obj;
+            ApplicationVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            _messageService = new MessageService();
 
             AttributesVm = new AttributesViewModel(_obj);
             TypeVm = new TypeViewModel(_obj.Type);
@@ -31,11 +31,16 @@ namespace PilotObjectInfo.ViewModels
             OrgUnitsVm = new OrgUnitsViewModel(GI.Repository.GetOrganisationUnits());
             TypesVm = new TypesViewModel(GI.Repository.GetTypes());
             UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
+            AnalyticsVm = new AnalyticsViewModel();
+            CodeSearchVM = new CodeStateViewModel(_messageService);
+            MetaCodeGeneratorVm = new MetaCodeGeneratorViewModel();
+            FooterVM = new FooterViewModel(_messageService);
 
             GI.Repository.GetOrganisationUnits();
 
             #region Commands
             this.GoToDataObjectCommand = new RelayCommand(OnGoToDataObjectExecuted, CanGoToDataObjectExecute);
+            this.CopyIdCommand = new RelayCommand(OnCopyIdExecuted);
             #endregion
         }
 
@@ -65,6 +70,19 @@ namespace PilotObjectInfo.ViewModels
         public UserStatesViewModel UserStatesVm { get; }
 
         public TypesViewModel TypesVm { get; }
+        public AnalyticsViewModel AnalyticsVm { get; }
+        public CodeStateViewModel CodeSearchVM { get; }
+        public MetaCodeGeneratorViewModel MetaCodeGeneratorVm { get; }
+        public FooterViewModel FooterVM { get; }
+
+        #region Версия приложения
+        private string _applicationVersion;
+        public string ApplicationVersion
+        {
+            get => _applicationVersion;
+            set => Set(ref _applicationVersion, value);
+        }
+        #endregion
 
 
         #region Команда Переход к объекту
@@ -77,6 +95,15 @@ namespace PilotObjectInfo.ViewModels
         private bool CanGoToDataObjectExecute(object obj)
         {
             return obj != null && obj is Guid;
+        }
+        #endregion
+
+        #region Команда Копировать Id
+        public ICommand CopyIdCommand { get; set; }
+        private void OnCopyIdExecuted(object obj)
+        {
+            var text = obj?.ToString() ?? Id.ToString();
+            System.Windows.Clipboard.SetText(text);
         }
         #endregion
     }

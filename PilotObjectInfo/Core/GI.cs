@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+using System.Linq;
 using Ascon.Pilot.SDK;
 
 namespace PilotObjectInfo.Core
@@ -24,16 +25,22 @@ namespace PilotObjectInfo.Core
         /// Обеспечивает работу с телами файлов
         /// </summary>
         internal static IFileProvider FileProvider { get; set; }
-
-        /// <summary>
-        /// Позволяет работать с конфигурацией атрибутов
-        /// </summary>
-        internal static IAttributeFormatParser AttributeFormatParser { get; set; }
-
+        
         /// <summary>
         /// Обеспечивает работу с вкладками главного окна
         /// </summary>
         internal static ITabServiceProvider TabServiceProvider { get; set; }
+        internal static List<IAttribute> GetAllAttrs()
+        {
+            var types = Repository.GetTypes();
+            if (types == null)
+                return new List<IAttribute>();
 
+            return types
+                .Where(t => t?.Attributes != null)
+                .SelectMany(t => t.Attributes)
+                .Where(a => a != null)
+                .ToList();
+        }
     }
 }
