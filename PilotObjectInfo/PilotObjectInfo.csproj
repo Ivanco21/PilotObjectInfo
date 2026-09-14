@@ -40,6 +40,53 @@
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
   </ItemGroup>
+	<!-- Список файлов для исключения из архива -->
+	<ItemGroup>
+		<ZipExcludeFiles Include="Ascon.Pilot.SDK.dll" />
+		<ZipExcludeFiles Include="Ascon.Pilot.Theme.dll" />
+		<ZipExcludeFiles Include="Ascon.Pilot.SDK.Common.dll" />
+		<ZipExcludeFiles Include="Newtonsoft.Json.dll" />
+		<ZipExcludeFiles Include="Microsoft.Xaml.Behaviors.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Converters.Wpf.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Core.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Css.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Dom.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Model.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Rendering.Gdi.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Rendering.Wpf.dll" />
+		<ZipExcludeFiles Include="SharpVectors.Runtime.Wpf.dll" />
+		<ZipExcludeFiles Include="System.Buffers.dll" />
+		<ZipExcludeFiles Include="System.Numerics.Vectors.dll" />
+		<ZipExcludeFiles Include="System.Reactive.dll" />
+		<ZipExcludeFiles Include="System.Reactive.Linq.dll" />
+		<ZipExcludeFiles Include="System.Threading.Tasks.Extensions.dll" />
+		<ZipExcludeFiles Include="System.Runtime.CompilerServices.Unsafe.dll" />
+		<ZipExcludeFiles Include="System.Composition.AttributedModel.dll" />
+		<ZipExcludeFiles Include="System.Composition.Convention.dll" />
+		<ZipExcludeFiles Include="System.Composition.Hosting.dll" />
+		<ZipExcludeFiles Include="System.Composition.Runtime.dll" />
+		<ZipExcludeFiles Include="System.Composition.TypedParts.dll" />
+		<ZipExcludeFiles Include="System.Collections.Immutable.dll" />
+		<ZipExcludeFiles Include="System.Memory.dll" />
+		<ZipExcludeFiles Include="System.ValueTuple.dll" />
+	</ItemGroup>
+
+
+	<Target Name="CreateZip" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<Delete Files="$(OutputPath)\*.pdb; $(OutputPath)\*.xml" />
+
+		<!-- Преобразуем список исключений в формат для PowerShell (каждое имя в кавычках, разделенные запятыми) -->
+		<PropertyGroup>
+			<ExcludeList>@(ZipExcludeFiles->'"%(Identity)"', ',')</ExcludeList>
+		</PropertyGroup>
+
+		<!-- Используем PowerShell для создания архива с исключением нужных файлов -->
+		<Exec Command="powershell -Command &quot;Get-ChildItem -Path $(OutputPath) -Recurse -Exclude $(ExcludeList) | Compress-Archive -DestinationPath $(OutputPath)\..\$(ProjectName).zip -Force&quot;" />
+		<Exec Command="powershell -Command explorer (Split-Path -Path '$(OutputPath)')" />
+		<Exec Command="powershell -Command &quot;([System.IO.Path]::GetFullPath('$(OutputPath)..')) | clip &quot;" />
+	</Target>
+
+
 	<PropertyGroup>
 		<DebugOutputPath>$(OutputPath)$(AssemblyName)</DebugOutputPath>
 		<UserDirectoryPath>$(UserProfile)\AppData\Local\ASCON\Pilot-BIM\Development\$(AssemblyName)</UserDirectoryPath>
@@ -50,6 +97,6 @@
 		<ItemGroup>
 			<FilesToCopy Include="$(OutputPath)**\*.*" />
 		</ItemGroup>
-		<Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(UserDirectoryPath)" />
+		<Copy SourceFiles="@(FilesToCopy)" DestinationFiles="@(FilesToCopy->'$(UserDirectoryPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
 </Project>
