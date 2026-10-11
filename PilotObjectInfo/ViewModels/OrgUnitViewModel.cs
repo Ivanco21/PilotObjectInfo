@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Ascon.Pilot.SDK;
+using PilotObjectInfo.Core;
 
 namespace PilotObjectInfo.ViewModels
 {
@@ -17,9 +18,17 @@ namespace PilotObjectInfo.ViewModels
 
         }
 
+        public OrgUnitViewModel(IOrganisationUnit organisationUnit)
+        {
+            _organisationUnit = organisationUnit;
+            Children = new ObservableCollection<OrgUnitViewModel>();
+        }
+
         public int Id => _organisationUnit.Id;
 
         public string Title => _organisationUnit.Title;
+
+        public string PersonDisplayName => _organisationUnit.IsPosition ? GI.Repository.GetPerson(_organisationUnit.Person()).DisplayName : string.Empty;
 
         public bool IsDeleted => _organisationUnit.IsDeleted;
 
