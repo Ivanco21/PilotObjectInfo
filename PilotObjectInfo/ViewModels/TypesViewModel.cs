@@ -17,17 +17,16 @@ using PilotObjectInfo.Settings;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class TypesViewModel: Base.ViewModel
+    class TypesViewModel : CommonViewModel
     {
-
         public TypesViewModel(IEnumerable<IType> types)
         {
             Types = new ObservableCollection<IType>(types);
             TypesView = CollectionViewSource.GetDefaultView(Types);
             TypesView.Filter = FilterTypes;
-            this.SearchCommand = new RelayCommand(OnSearchExecuted, CanSearchExecute);
-            this.GoToRandomTypeElementCommand = new AsyncRelayCommand(OnGoToRandomTypeElementExecutedAsync, CanGoToRandomTypeElementExecute);
-            this.GenerateFullDtoCommand = new RelayCommand(OnGenerateFullDtoExecuted, CanGenerateFullDtoExecute);
+            SearchCommand = new RelayCommand(OnSearchExecuted, CanSearchExecute);
+            GoToRandomTypeElementCommand = new AsyncRelayCommand(OnGoToRandomTypeElementExecutedAsync, CanGoToRandomTypeElementExecute);
+            GenerateFullDtoCommand = new RelayCommand(OnGenerateFullDtoExecuted, CanGenerateFullDtoExecute);
         }
         public ObservableCollection<IType> Types { get; }
 

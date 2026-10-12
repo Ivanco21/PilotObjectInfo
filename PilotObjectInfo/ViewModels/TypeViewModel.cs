@@ -1,22 +1,25 @@
 ﻿using Ascon.Pilot.SDK;
+using PilotObjectInfo.Models;
+using System.Collections.Generic;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class TypeViewModel : Base.ViewModel
+    class TypeViewModel : CommonViewModel
     {
-		private IType _type;
+        public TypeViewModel(IType type)
+        {
+            Properties = new List<NameValueModel>
+            {
+                new(nameof(type.Id), type.Id.ToString()),
+                new(nameof(type.Name), type.Name),
+                new(nameof(type.Title), type.Title),
+                new(nameof(type.Kind), type.Kind.ToString()),
+                new(nameof(type.IsMountable), type.IsMountable.ToString()),
+                new(nameof(type.IsProject), type.IsProject.ToString()),
+                new(nameof(type.IsService), type.IsService.ToString()),
+            };
+        }
 
-		public TypeViewModel(IType type)
-		{
-			_type = type;
-		}
-		public int Id => _type.Id;
-		public string Name => _type.Name;
-		public string Title => _type.Title;
-		public string Kind => _type.Kind.ToString();
-		public bool IsMountable => _type.IsMountable;
-		public bool IsProject => _type.IsProject;
-		public bool IsService => _type.IsService;
-		
-	}
+        public List<NameValueModel> Properties { get; }
+    }
 }

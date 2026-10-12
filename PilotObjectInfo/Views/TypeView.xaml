@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PilotObjectInfo.Views"
+             xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
+             d:DataContext="{d:DesignInstance Type=viewmodels:TypeViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -17,66 +20,99 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   Text="Id"/>
-        <TextBox  Grid.Row="0"
-                   Grid.Column="1"
-                   Text="{Binding Id, Mode=OneWay}"/>
-
-        <TextBlock Grid.Row="1"
-                   Grid.Column="0"
-                   Text="Name"/>
-        <TextBox  Grid.Row="1"
-                   Grid.Column="1"
-                   Text="{Binding Name, Mode=OneWay}"/>
-
-        <TextBlock  Grid.Row="2"
-                   Grid.Column="0"
-                   Text="Title"/>
-        <TextBox Grid.Row="2"
-                   Grid.Column="1"
-                   Text="{Binding Title, Mode=OneWay}"/>
-
-        <TextBlock Grid.Row="3"
-                   Grid.Column="0"
-                   Text="Kind"/>
-        <TextBox  Grid.Row="3"
-                   Grid.Column="1"
-                   Text="{Binding Kind, Mode=OneWay}"/>
-
-        <TextBlock Grid.Row="4"
-                   Grid.Column="0"
-                   Text="IsMountable"/>
-        <TextBox  Grid.Row="4"
-                   Grid.Column="1"
-                   Text="{Binding IsMountable, Mode=OneWay}"/>
-
-        <TextBlock Grid.Row="5"
-                   Grid.Column="0"
-                   Text="IsProject"/>
-        <TextBox  Grid.Row="5"
-                   Grid.Column="1"
-                   Text="{Binding IsProject, Mode=OneWay}"/>
-
-        <TextBlock Grid.Row="6"
-                   Grid.Column="0"
-                   Text="IsService"/>
-        <TextBox  Grid.Row="6"
-                   Grid.Column="1"
-                   Text="{Binding IsService, Mode=OneWay}"/>
+        <DataGrid x:Name="TypeGrid"
+                  Grid.Row="0"
+                  ItemsSource="{Binding Properties}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  ClipboardCopyMode="ExcludeHeader">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding CopyCellCommand}"
+                                           PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name"
+                                    Width="Auto"
+                                    Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Value"
+                                    Width="*"
+                                    Binding="{Binding Value}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Popup Style="{StaticResource CopiedPopupStyle}"
+               PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+               Child="{StaticResource CopiedPopupContent}"/>
+        <customcontrols:ToolPanel Grid.Row="2">
+            <customcontrols:ToolPanel.Tools>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Style="{StaticResource ToolSeparatorStyle}"/>
+                    <Button Style="{StaticResource ToolButtonStyle}"
+                            ToolTip="Copy row"
+                            Command="{Binding CopyRowCommand}"
+                            CommandParameter="{x:Reference TypeGrid}">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="11"
+                                  Height="11"
+                                  Margin="0,0,2,0"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CopyGeometry}"/>
+                            <Path Height="8"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource RowGeometry}"/>
+                        </StackPanel>
+                    </Button>
+                    <Rectangle Style="{StaticResource ToolSeparatorStyle}"/>
+                    <Button Style="{StaticResource ToolButtonStyle}"
+                            ToolTip="Copy as CSV"
+                            Command="{Binding CopyCsvCommand}"
+                            CommandParameter="{x:Reference TypeGrid}">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="11"
+                                  Height="11"
+                                  Margin="0,0,2,0"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CopyGeometry}"/>
+                            <Path Height="8"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CsvGeometry}"/>
+                        </StackPanel>
+                    </Button>
+                    <Rectangle Style="{StaticResource ToolSeparatorStyle}"/>
+                    <Button Style="{StaticResource ToolButtonStyle}"
+                            ToolTip="Copy as JSON"
+                            Command="{Binding CopyJsonCommand}"
+                            CommandParameter="{x:Reference TypeGrid}">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="11"
+                                  Height="11"
+                                  Margin="0,0,2,0"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CopyGeometry}"/>
+                            <Path Height="8"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource JsonGeometry}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </customcontrols:ToolPanel.Tools>
+        </customcontrols:ToolPanel>
     </Grid>
 </UserControl>
