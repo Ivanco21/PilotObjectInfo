@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Ascon.Pilot.SDK;
+using PilotObjectInfo.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Ascon.Pilot.SDK;
-using PilotObjectInfo.Models;
+using IDataObject = Ascon.Pilot.SDK.IDataObject;
 
 namespace PilotObjectInfo.ViewModels
 {
-    class AttributesViewModel : Base.ViewModel
+    class AttributesViewModel : CommonViewModel
     {
         public AttributesViewModel(IDataObject obj)
         {
@@ -32,13 +33,6 @@ namespace PilotObjectInfo.ViewModels
                         attModel.Value = (ArrayToString<int>(attr.Value));
                         attModel.Title = attrType.Title;
                         break;
-                    case AttributeType.Integer:
-                    case AttributeType.Double:
-                    case AttributeType.DateTime:
-                    case AttributeType.String:
-                    case AttributeType.Decimal:
-                    case AttributeType.Numerator:
-                    case AttributeType.UserState:
                     default:
                         attModel.Value = attr.Value?.ToString();
                         attModel.Title = attrType.Title;

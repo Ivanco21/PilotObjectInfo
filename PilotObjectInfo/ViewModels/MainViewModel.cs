@@ -31,6 +31,9 @@ namespace PilotObjectInfo.ViewModels
             OrgUnitsVm = new OrgUnitsViewModel(GI.Repository.GetOrganisationUnits());
             TypesVm = new TypesViewModel(GI.Repository.GetTypes());
             UserStatesVm = new UserStatesViewModel(GI.Repository.GetUserStates());
+            StateMachinesVm = new StateMachinesViewModel(
+                GI.Repository.GetUserStateMachines(),
+                GI.Repository.GetUserStates());
             AnalyticsVm = new AnalyticsViewModel();
             CodeSearchVM = new CodeStateViewModel(_messageService);
             MetaCodeGeneratorVm = new MetaCodeGeneratorViewModel();
@@ -68,6 +71,7 @@ namespace PilotObjectInfo.ViewModels
         public PeopleViewModel PeopleVm { get; }
         public OrgUnitsViewModel OrgUnitsVm { get; }
         public UserStatesViewModel UserStatesVm { get; }
+        public StateMachinesViewModel StateMachinesVm { get; }
 
         public TypesViewModel TypesVm { get; }
         public AnalyticsViewModel AnalyticsVm { get; }

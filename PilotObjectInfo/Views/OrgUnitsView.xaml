@@ -4,10 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PilotObjectInfo.Views"
+             xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TreeView ItemsSource="{Binding OrganisationUnits}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <customcontrols:SearchPanel Grid.Column="0"/>
+            <Button Grid.Column="1"
+                    Content="Search"
+                    Margin="2"
+                    Height="25"
+                    MinWidth="70"
+                    Command="{Binding SearchCommand}"/>
+        </Grid>
+        <TreeView Grid.Row="1"
+                  ItemsSource="{Binding OrganisationUnits}"
                   BorderThickness="0"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   BorderBrush="Transparent"
@@ -26,24 +45,26 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Id}"/>
                         <TextBlock Grid.Column="1" Text="{Binding Title}"/>
-                        <TextBlock Grid.Column="2">
+                        <TextBlock Grid.Column="2" Text="{Binding PersonDisplayName}"/>
+                        <TextBlock Grid.Column="3">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{} IsDeleted: {0}">
                                     <Binding Path="IsDeleted" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                        <TextBlock Grid.Column="3">
+                        <TextBlock Grid.Column="4">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{} IsPosition: {0}">
                                     <Binding Path="IsPosition" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                        <TextBlock Grid.Column="4">
+                        <TextBlock Grid.Column="5">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{} IsChief: {0}">
                                     <Binding Path="IsChief" />
@@ -51,7 +72,6 @@
                             </TextBlock.Text>
                         </TextBlock>
                     </Grid>
-
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

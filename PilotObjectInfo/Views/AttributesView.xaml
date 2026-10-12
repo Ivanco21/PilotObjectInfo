@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PilotObjectInfo" 
              xmlns:viewmodels="clr-namespace:PilotObjectInfo.ViewModels"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:bh="clr-namespace:PilotObjectInfo.Behaviors.CopyBehaviors"
+             xmlns:customcontrols="clr-namespace:PilotObjectInfo.Views.Controls"
              d:DataContext="{d:DesignInstance Type=viewmodels:AttributesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -20,13 +20,23 @@
     </UserControl.Resources>
 
     <Grid>
-        <DataGrid ItemsSource="{Binding Attributes}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="AttributesGrid"
+                  Grid.Row="0"
+                  ItemsSource="{Binding Attributes}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   ClipboardCopyMode="ExcludeHeader">
-            <i:Interaction.Behaviors>
-                <bh:AttrsCopyCellValueBehavior Key="C"/>
-            </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding CopyCellCommand}"
+                                           PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name"
                                     Width="Auto"
@@ -42,5 +52,74 @@
                                     Binding="{Binding Type}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Popup Style="{StaticResource CopiedPopupStyle}"
+               PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+               Child="{StaticResource CopiedPopupContent}"/>
+        <customcontrols:ToolPanel Grid.Row="2">
+            <customcontrols:ToolPanel.Tools>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Style="{StaticResource ToolSeparatorStyle}"/>
+                    <Button Style="{StaticResource ToolButtonStyle}"
+                            ToolTip="Copy row"
+                            Command="{Binding CopyRowCommand}"
+                            CommandParameter="{x:Reference AttributesGrid}">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="11"
+                                  Height="11"
+                                  Margin="0,0,2,0"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CopyGeometry}"/>
+                            <Path Height="8"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource RowGeometry}"/>
+                        </StackPanel>
+                    </Button>
+                    <Rectangle Style="{StaticResource ToolSeparatorStyle}"/>
+                    <Button Style="{StaticResource ToolButtonStyle}"
+                            ToolTip="Copy as CSV"
+                            Command="{Binding CopyCsvCommand}"
+                            CommandParameter="{x:Reference AttributesGrid}">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="11"
+                                  Height="11"
+                                  Margin="0,0,2,0"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CopyGeometry}"/>
+                            <Path Height="8"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CsvGeometry}"/>
+                        </StackPanel>
+                    </Button>
+                    <Rectangle Style="{StaticResource ToolSeparatorStyle}"/>
+                    <Button Style="{StaticResource ToolButtonStyle}"
+                            ToolTip="Copy as JSON"
+                            Command="{Binding CopyJsonCommand}"
+                            CommandParameter="{x:Reference AttributesGrid}">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Width="11"
+                                  Height="11"
+                                  Margin="0,0,2,0"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource CopyGeometry}"/>
+                            <Path Height="8"
+                                  VerticalAlignment="Center"
+                                  Stretch="Uniform"
+                                  Fill="{DynamicResource NormalForeground}"
+                                  Data="{StaticResource JsonGeometry}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </customcontrols:ToolPanel.Tools>
+        </customcontrols:ToolPanel>
     </Grid>
 </UserControl>
