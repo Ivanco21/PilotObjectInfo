@@ -225,10 +225,12 @@ namespace PilotObjectInfo.ViewModels
 
         private void ShowCopiedPopup(MouseButtonEventArgs e, DataGridCell cell)
         {
-            if (FindAncestor<DataGrid>(cell) is not DataGrid grid)
+            var host = FindAncestor<UserControl>(cell) as IInputElement
+                       ?? FindAncestor<DataGrid>(cell);
+            if (host == null)
                 return;
 
-            var position = e.GetPosition(grid);
+            var position = e.GetPosition(host);
             CopiedPopupX = position.X + 8;
             CopiedPopupY = position.Y - 28;
 

@@ -52,26 +52,9 @@
                                     Binding="{Binding Type}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Popup PlacementTarget="{Binding ElementName=AttributesGrid}"
-               Placement="RelativePoint"
-               HorizontalOffset="{Binding CopiedPopupX}"
-               VerticalOffset="{Binding CopiedPopupY}"
-               IsOpen="{Binding IsCopiedPopupOpen}"
-               AllowsTransparency="True"
-               PopupAnimation="Fade"
-               StaysOpen="True"
-               IsHitTestVisible="False">
-            <Border Background="{DynamicResource NormalBackground}"
-                    BorderBrush="{DynamicResource NormalForeground}"
-                    BorderThickness="1"
-                    CornerRadius="3"
-                    Padding="8,3">
-                <TextBlock Text="Copied!"
-                           Margin="0"
-                           FontSize="12"
-                           Foreground="{DynamicResource NormalForeground}"/>
-            </Border>
-        </Popup>
+        <Popup Style="{StaticResource CopiedPopupStyle}"
+               PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
+               Child="{StaticResource CopiedPopupContent}"/>
         <customcontrols:ToolPanel Grid.Row="2">
             <customcontrols:ToolPanel.Tools>
                 <StackPanel Orientation="Horizontal">

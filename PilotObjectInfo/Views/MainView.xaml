@@ -161,6 +161,9 @@
                             <TabItem Header="UserStates">
                                 <local:UserStatesView DataContext="{Binding UserStatesVm, Mode=OneWay}" />
                             </TabItem>
+                            <TabItem Header="StateMachines">
+                                <local:StateMachinesView DataContext="{Binding StateMachinesVm, Mode=OneWay}" />
+                            </TabItem>
                             <TabItem Header="People">
                                 <local:PeopleView DataContext="{Binding PeopleVm, Mode=OneWay}" />
                             </TabItem>

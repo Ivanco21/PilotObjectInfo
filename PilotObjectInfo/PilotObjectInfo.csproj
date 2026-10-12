@@ -30,6 +30,7 @@
 	</ItemGroup>
 	<ItemGroup>
     <PackageReference Include="Ascon.Pilot.SDK" Version="26.4.0" />
+    <PackageReference Include="GraphShape.Controls" Version="1.2.2" />
     <PackageReference Include="ICSharpCode.Decompiler" Version="9.1.0.7988" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />

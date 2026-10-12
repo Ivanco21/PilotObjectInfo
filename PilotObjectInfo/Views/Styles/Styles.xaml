@@ -90,4 +90,28 @@
         </Setter>
     </Style>
 
+    <Border x:Key="CopiedPopupContent"
+            x:Shared="False"
+            Background="{DynamicResource NormalBackground}"
+            BorderBrush="{DynamicResource NormalForeground}"
+            BorderThickness="1"
+            CornerRadius="3"
+            Padding="8,3">
+        <TextBlock Text="Copied!"
+                   Margin="0"
+                   FontSize="12"
+                   Foreground="{DynamicResource NormalForeground}"/>
+    </Border>
+
+    <Style x:Key="CopiedPopupStyle" TargetType="{x:Type Popup}">
+        <Setter Property="Placement" Value="RelativePoint"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="PopupAnimation" Value="Fade"/>
+        <Setter Property="StaysOpen" Value="True"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="HorizontalOffset" Value="{Binding CopiedPopupX}"/>
+        <Setter Property="VerticalOffset" Value="{Binding CopiedPopupY}"/>
+        <Setter Property="IsOpen" Value="{Binding IsCopiedPopupOpen}"/>
+    </Style>
+
 </ResourceDictionary>
