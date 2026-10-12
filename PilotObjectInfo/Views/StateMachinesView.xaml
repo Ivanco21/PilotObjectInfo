@@ -119,7 +119,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <customcontrols:SearchPanel Grid.Row="0"/>
+        <customcontrols:SearchPanel/>
 
         <Popup Style="{StaticResource CopiedPopupStyle}"
                PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"

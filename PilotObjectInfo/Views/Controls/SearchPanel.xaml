@@ -11,11 +11,13 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
+            Style="{x:Null}"
             Text="Search:"
-            VerticalAlignment="Center">
-        </TextBlock>
+            VerticalAlignment="Center"
+            Foreground="Black"/>
         <TextBox Grid.Column="1"
                     x:Name="SearchTextBox"
+                    Style="{x:Null}"
                     Margin="2"
                     Height="25"
 				    Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
